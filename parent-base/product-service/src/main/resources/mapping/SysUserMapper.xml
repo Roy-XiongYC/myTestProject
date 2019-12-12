@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiongyc.dao.ISysUserDao">
+<resultMap id="BaseResultMap"  type="com.xiongyc.bean.SysUser" >
+	<result column="USER_ID" property="uSERID" jdbcType="INTEGER" />
+	<result column="AVATAR" property="aVATAR" jdbcType="VARCHAR" />
+	<result column="ACCOUNT" property="aCCOUNT" jdbcType="VARCHAR" />
+	<result column="PASSWORD" property="pASSWORD" jdbcType="VARCHAR" />
+	<result column="SALT" property="sALT" jdbcType="VARCHAR" />
+	<result column="NAME" property="nAME" jdbcType="VARCHAR" />
+	<result column="BIRTHDAY" property="bIRTHDAY" jdbcType="TIMESTAMP" />
+	<result column="SEX" property="sEX" jdbcType="VARCHAR" />
+	<result column="EMAIL" property="eMAIL" jdbcType="VARCHAR" />
+	<result column="PHONE" property="pHONE" jdbcType="VARCHAR" />
+	<result column="ROLE_ID" property="rOLEID" jdbcType="VARCHAR" />
+	<result column="DEPT_ID" property="dEPTID" jdbcType="INTEGER" />
+	<result column="STATUS" property="sTATUS" jdbcType="VARCHAR" />
+	<result column="VERSION" property="vERSION" jdbcType="INTEGER" />
+	<result column="POSITION" property="pOSITION" jdbcType="VARCHAR" />
+	<result column="ENTRYTIME" property="eNTRYTIME" jdbcType="VARCHAR" />
+	<result column="IS_LEADER" property="iSLEADER" jdbcType="VARCHAR" />
+	<result column="TELEPHONE" property="tELEPHONE" jdbcType="VARCHAR" />
+	<result column="ACT_STATUS" property="aCTSTATUS" jdbcType="VARCHAR" />
+</resultMap> 
+<sql id="Criteria_Where_Clause"> 
+	<where> 
+		<if test="params.uSERID!=null">
+			 and USER_ID=#{params.uSERID}
+		</if>
+		<if test="params.aVATAR!=null">
+			 and AVATAR=#{params.aVATAR}
+		</if>
+		<if test="params.aCCOUNT!=null">
+			 and ACCOUNT=#{params.aCCOUNT}
+		</if>
+		<if test="params.pASSWORD!=null">
+			 and PASSWORD=#{params.pASSWORD}
+		</if>
+		<if test="params.sALT!=null">
+			 and SALT=#{params.sALT}
+		</if>
+		<if test="params.nAME!=null">
+			 and NAME=#{params.nAME}
+		</if>
+		<if test="params.bIRTHDAY!=null">
+			 and BIRTHDAY=#{params.bIRTHDAY}
+		</if>
+		<if test="params.sEX!=null">
+			 and SEX=#{params.sEX}
+		</if>
+		<if test="params.eMAIL!=null">
+			 and EMAIL=#{params.eMAIL}
+		</if>
+		<if test="params.pHONE!=null">
+			 and PHONE=#{params.pHONE}
+		</if>
+		<if test="params.rOLEID!=null">
+			 and ROLE_ID=#{params.rOLEID}
+		</if>
+		<if test="params.dEPTID!=null">
+			 and DEPT_ID=#{params.dEPTID}
+		</if>
+		<if test="params.sTATUS!=null">
+			 and STATUS=#{params.sTATUS}
+		</if>
+		<if test="params.vERSION!=null">
+			 and VERSION=#{params.vERSION}
+		</if>
+		<if test="params.pOSITION!=null">
+			 and POSITION=#{params.pOSITION}
+		</if>
+		<if test="params.eNTRYTIME!=null">
+			 and ENTRYTIME=#{params.eNTRYTIME}
+		</if>
+		<if test="params.iSLEADER!=null">
+			 and IS_LEADER=#{params.iSLEADER}
+		</if>
+		<if test="params.tELEPHONE!=null">
+			 and TELEPHONE=#{params.tELEPHONE}
+		</if>
+		<if test="params.aCTSTATUS!=null">
+			 and ACT_STATUS=#{params.aCTSTATUS}
+		</if>
+	</where> 
+</sql> 
+<sql id="Base_Column_List">
+  USER_ID,AVATAR,ACCOUNT,PASSWORD,SALT,NAME,BIRTHDAY,SEX,EMAIL,PHONE,ROLE_ID,DEPT_ID,STATUS,VERSION,POSITION,ENTRYTIME,IS_LEADER,TELEPHONE,ACT_STATUS
+</sql> 
+<select id="queryPage" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from sys_user
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryPageCount" resultType="java.lang.Integer" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select count(1) from sys_user 
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+</select> 
+<select id="queryEntityById" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	<include refid="Base_Column_List" />
+	from sys_user	where USER_ID = #{uSERID}
+</select>
+<insert id="insert" parameterType="com.xiongyc.bean.SysUser"> 
+	insert into sys_user
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="uSERID != null"> 
+			USER_ID,
+		</if>
+		<if test="aVATAR != null"> 
+			AVATAR,
+		</if>
+		<if test="aCCOUNT != null"> 
+			ACCOUNT,
+		</if>
+		<if test="pASSWORD != null"> 
+			PASSWORD,
+		</if>
+		<if test="sALT != null"> 
+			SALT,
+		</if>
+		<if test="nAME != null"> 
+			NAME,
+		</if>
+		<if test="bIRTHDAY != null"> 
+			BIRTHDAY,
+		</if>
+		<if test="sEX != null"> 
+			SEX,
+		</if>
+		<if test="eMAIL != null"> 
+			EMAIL,
+		</if>
+		<if test="pHONE != null"> 
+			PHONE,
+		</if>
+		<if test="rOLEID != null"> 
+			ROLE_ID,
+		</if>
+		<if test="dEPTID != null"> 
+			DEPT_ID,
+		</if>
+		<if test="sTATUS != null"> 
+			STATUS,
+		</if>
+		<if test="vERSION != null"> 
+			VERSION,
+		</if>
+		<if test="pOSITION != null"> 
+			POSITION,
+		</if>
+		<if test="eNTRYTIME != null"> 
+			ENTRYTIME,
+		</if>
+		<if test="iSLEADER != null"> 
+			IS_LEADER,
+		</if>
+		<if test="tELEPHONE != null"> 
+			TELEPHONE,
+		</if>
+		<if test="aCTSTATUS != null"> 
+			ACT_STATUS,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="uSERID != null"> 
+		#{uSERID},
+	</if>
+	<if test="aVATAR != null"> 
+		#{aVATAR},
+	</if>
+	<if test="aCCOUNT != null"> 
+		#{aCCOUNT},
+	</if>
+	<if test="pASSWORD != null"> 
+		#{pASSWORD},
+	</if>
+	<if test="sALT != null"> 
+		#{sALT},
+	</if>
+	<if test="nAME != null"> 
+		#{nAME},
+	</if>
+	<if test="bIRTHDAY != null"> 
+		#{bIRTHDAY},
+	</if>
+	<if test="sEX != null"> 
+		#{sEX},
+	</if>
+	<if test="eMAIL != null"> 
+		#{eMAIL},
+	</if>
+	<if test="pHONE != null"> 
+		#{pHONE},
+	</if>
+	<if test="rOLEID != null"> 
+		#{rOLEID},
+	</if>
+	<if test="dEPTID != null"> 
+		#{dEPTID},
+	</if>
+	<if test="sTATUS != null"> 
+		#{sTATUS},
+	</if>
+	<if test="vERSION != null"> 
+		#{vERSION},
+	</if>
+	<if test="pOSITION != null"> 
+		#{pOSITION},
+	</if>
+	<if test="eNTRYTIME != null"> 
+		#{eNTRYTIME},
+	</if>
+	<if test="iSLEADER != null"> 
+		#{iSLEADER},
+	</if>
+	<if test="tELEPHONE != null"> 
+		#{tELEPHONE},
+	</if>
+	<if test="aCTSTATUS != null"> 
+		#{aCTSTATUS},
+	</if>
+	</trim>
+</insert>
+<insert id="insertBatch" parameterType="java.util.List"> 
+	insert into sys_user
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+			USER_ID,AVATAR,ACCOUNT,PASSWORD,SALT,NAME,BIRTHDAY,SEX,EMAIL,PHONE,ROLE_ID,DEPT_ID,STATUS,VERSION,POSITION,ENTRYTIME,IS_LEADER,TELEPHONE,ACT_STATUS
+	</trim>
+	values
+	<foreach collection="list" item="item" separator=",">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			#{item.uSERID},#{item.aVATAR},#{item.aCCOUNT},#{item.pASSWORD},#{item.sALT},#{item.nAME},#{item.bIRTHDAY},#{item.sEX},#{item.eMAIL},#{item.pHONE},#{item.rOLEID},#{item.dEPTID},#{item.sTATUS},#{item.vERSION},#{item.pOSITION},#{item.eNTRYTIME},#{item.iSLEADER},#{item.tELEPHONE},#{item.aCTSTATUS}
+		</trim>
+	</foreach>
+</insert>
+<!--  批量保存 存在更新不存在插入(如果指定一个on duplicate key update子句，并且要插入的行将导致唯一索引或主键中的值重复，
+则会更新旧行, 对于innodb表，如果a是自动递增列，则效果不相同。对于自动递增列，insert语句会增加自动递增值，但update不会。 )
+详细文档 https://dev.mysql.com/doc/refman/5.5/en/insert-on-duplicate.html -->
+<insert id="insertOrUpdateBatch" parameterType="java.util.List"> 
+	<foreach collection="list" item="item" separator=";">
+	insert into sys_user
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="item.uSERID != null"> 
+			USER_ID,
+		</if>
+		<if test="item.aVATAR != null"> 
+			AVATAR,
+		</if>
+		<if test="item.aCCOUNT != null"> 
+			ACCOUNT,
+		</if>
+		<if test="item.pASSWORD != null"> 
+			PASSWORD,
+		</if>
+		<if test="item.sALT != null"> 
+			SALT,
+		</if>
+		<if test="item.nAME != null"> 
+			NAME,
+		</if>
+		<if test="item.bIRTHDAY != null"> 
+			BIRTHDAY,
+		</if>
+		<if test="item.sEX != null"> 
+			SEX,
+		</if>
+		<if test="item.eMAIL != null"> 
+			EMAIL,
+		</if>
+		<if test="item.pHONE != null"> 
+			PHONE,
+		</if>
+		<if test="item.rOLEID != null"> 
+			ROLE_ID,
+		</if>
+		<if test="item.dEPTID != null"> 
+			DEPT_ID,
+		</if>
+		<if test="item.sTATUS != null"> 
+			STATUS,
+		</if>
+		<if test="item.vERSION != null"> 
+			VERSION,
+		</if>
+		<if test="item.pOSITION != null"> 
+			POSITION,
+		</if>
+		<if test="item.eNTRYTIME != null"> 
+			ENTRYTIME,
+		</if>
+		<if test="item.iSLEADER != null"> 
+			IS_LEADER,
+		</if>
+		<if test="item.tELEPHONE != null"> 
+			TELEPHONE,
+		</if>
+		<if test="item.aCTSTATUS != null"> 
+			ACT_STATUS,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="item.uSERID != null"> 
+		#{item.uSERID},
+	</if>
+	<if test="item.aVATAR != null"> 
+		#{item.aVATAR},
+	</if>
+	<if test="item.aCCOUNT != null"> 
+		#{item.aCCOUNT},
+	</if>
+	<if test="item.pASSWORD != null"> 
+		#{item.pASSWORD},
+	</if>
+	<if test="item.sALT != null"> 
+		#{item.sALT},
+	</if>
+	<if test="item.nAME != null"> 
+		#{item.nAME},
+	</if>
+	<if test="item.bIRTHDAY != null"> 
+		#{item.bIRTHDAY},
+	</if>
+	<if test="item.sEX != null"> 
+		#{item.sEX},
+	</if>
+	<if test="item.eMAIL != null"> 
+		#{item.eMAIL},
+	</if>
+	<if test="item.pHONE != null"> 
+		#{item.pHONE},
+	</if>
+	<if test="item.rOLEID != null"> 
+		#{item.rOLEID},
+	</if>
+	<if test="item.dEPTID != null"> 
+		#{item.dEPTID},
+	</if>
+	<if test="item.sTATUS != null"> 
+		#{item.sTATUS},
+	</if>
+	<if test="item.vERSION != null"> 
+		#{item.vERSION},
+	</if>
+	<if test="item.pOSITION != null"> 
+		#{item.pOSITION},
+	</if>
+	<if test="item.eNTRYTIME != null"> 
+		#{item.eNTRYTIME},
+	</if>
+	<if test="item.iSLEADER != null"> 
+		#{item.iSLEADER},
+	</if>
+	<if test="item.tELEPHONE != null"> 
+		#{item.tELEPHONE},
+	</if>
+	<if test="item.aCTSTATUS != null"> 
+		#{item.aCTSTATUS},
+	</if>
+	</trim>
+	ON DUPLICATE KEY UPDATE
+	AVATAR = #{item.aVATAR},ACCOUNT = #{item.aCCOUNT},PASSWORD = #{item.pASSWORD},SALT = #{item.sALT},NAME = #{item.nAME},BIRTHDAY = #{item.bIRTHDAY},SEX = #{item.sEX},EMAIL = #{item.eMAIL},PHONE = #{item.pHONE},ROLE_ID = #{item.rOLEID},DEPT_ID = #{item.dEPTID},STATUS = #{item.sTATUS},VERSION = #{item.vERSION},POSITION = #{item.pOSITION},ENTRYTIME = #{item.eNTRYTIME},IS_LEADER = #{item.iSLEADER},TELEPHONE = #{item.tELEPHONE},ACT_STATUS = #{item.aCTSTATUS}
+	</foreach>
+</insert>
+<update id="updateByCriteria" parameterType="com.honghu.cloud.common.utils.mybatis.Criteria">
+	update sys_user
+	<set>
+	<if test="record.uSERID != null"> 
+		USER_ID = #{record.uSERID},
+	</if>
+	<if test="record.aVATAR != null"> 
+		AVATAR = #{record.aVATAR},
+	</if>
+	<if test="record.aCCOUNT != null"> 
+		ACCOUNT = #{record.aCCOUNT},
+	</if>
+	<if test="record.pASSWORD != null"> 
+		PASSWORD = #{record.pASSWORD},
+	</if>
+	<if test="record.sALT != null"> 
+		SALT = #{record.sALT},
+	</if>
+	<if test="record.nAME != null"> 
+		NAME = #{record.nAME},
+	</if>
+	<if test="record.bIRTHDAY != null"> 
+		BIRTHDAY = #{record.bIRTHDAY},
+	</if>
+	<if test="record.sEX != null"> 
+		SEX = #{record.sEX},
+	</if>
+	<if test="record.eMAIL != null"> 
+		EMAIL = #{record.eMAIL},
+	</if>
+	<if test="record.pHONE != null"> 
+		PHONE = #{record.pHONE},
+	</if>
+	<if test="record.rOLEID != null"> 
+		ROLE_ID = #{record.rOLEID},
+	</if>
+	<if test="record.dEPTID != null"> 
+		DEPT_ID = #{record.dEPTID},
+	</if>
+	<if test="record.sTATUS != null"> 
+		STATUS = #{record.sTATUS},
+	</if>
+	<if test="record.vERSION != null"> 
+		VERSION = #{record.vERSION},
+	</if>
+	<if test="record.pOSITION != null"> 
+		POSITION = #{record.pOSITION},
+	</if>
+	<if test="record.eNTRYTIME != null"> 
+		ENTRYTIME = #{record.eNTRYTIME},
+	</if>
+	<if test="record.iSLEADER != null"> 
+		IS_LEADER = #{record.iSLEADER},
+	</if>
+	<if test="record.tELEPHONE != null"> 
+		TELEPHONE = #{record.tELEPHONE},
+	</if>
+	<if test="record.aCTSTATUS != null"> 
+		ACT_STATUS = #{record.aCTSTATUS},
+	</if>
+	</set>
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</update>
+<update id="updateBatchByCriteria" parameterType="java.util.List">
+	<foreach collection="list" item="params" separator=";">
+		update sys_user
+		<set>
+		<if test="params.aVATAR != null"> 
+			AVATAR = #{params.aVATAR},
+		</if>
+		<if test="params.aCCOUNT != null"> 
+			ACCOUNT = #{params.aCCOUNT},
+		</if>
+		<if test="params.pASSWORD != null"> 
+			PASSWORD = #{params.pASSWORD},
+		</if>
+		<if test="params.sALT != null"> 
+			SALT = #{params.sALT},
+		</if>
+		<if test="params.nAME != null"> 
+			NAME = #{params.nAME},
+		</if>
+		<if test="params.bIRTHDAY != null"> 
+			BIRTHDAY = #{params.bIRTHDAY},
+		</if>
+		<if test="params.sEX != null"> 
+			SEX = #{params.sEX},
+		</if>
+		<if test="params.eMAIL != null"> 
+			EMAIL = #{params.eMAIL},
+		</if>
+		<if test="params.pHONE != null"> 
+			PHONE = #{params.pHONE},
+		</if>
+		<if test="params.rOLEID != null"> 
+			ROLE_ID = #{params.rOLEID},
+		</if>
+		<if test="params.dEPTID != null"> 
+			DEPT_ID = #{params.dEPTID},
+		</if>
+		<if test="params.sTATUS != null"> 
+			STATUS = #{params.sTATUS},
+		</if>
+		<if test="params.vERSION != null"> 
+			VERSION = #{params.vERSION},
+		</if>
+		<if test="params.pOSITION != null"> 
+			POSITION = #{params.pOSITION},
+		</if>
+		<if test="params.eNTRYTIME != null"> 
+			ENTRYTIME = #{params.eNTRYTIME},
+		</if>
+		<if test="params.iSLEADER != null"> 
+			IS_LEADER = #{params.iSLEADER},
+		</if>
+		<if test="params.tELEPHONE != null"> 
+			TELEPHONE = #{params.tELEPHONE},
+		</if>
+		<if test="params.aCTSTATUS != null"> 
+			ACT_STATUS = #{params.aCTSTATUS},
+		</if>
+		</set>
+		<if test="params != null">
+			<where>
+				<if test="params.uSERID !=null">
+					and USER_ID=#{params.uSERID }
+				</if>
+			</where>
+		</if>
+	</foreach>
+</update>
+<delete id="deleteByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	delete from sys_user
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</delete>
+<delete id="deleteById" parameterType="java.lang.String">
+	delete from sys_user
+	where USER_ID = #{uSERID}
+</delete>
+<delete id="deleteBatchByIds">
+	delete from sys_user
+	where apply_id in
+	<foreach collection="array" item="id" open="(" close=")" separator=",">
+		#{id}
+	</foreach>
+</delete>
+</mapper>
