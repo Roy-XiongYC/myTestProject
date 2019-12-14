@@ -8,20 +8,7 @@ mybatis:
   mapper-locations: # 所有的mapper映射文件
   - classpath:mapper/*.xml 
 
-#mapper:
-#  mappers:
-#      - com.xiongyc.utils.mybatis.MyDao
-#  not-empty: false
-#  identity: MYSQL
-#
-#pagehelper:
-#  helperDialect: mysql
-#  reasonable: true
-#  supportMethodsArguments: true
-#  params: count=countSql
-
-  
-spring:
+spring: 
   application: 
     name: product-service
   datasource: 
@@ -40,5 +27,5 @@ spring:
   
 logging:
   level:
-    com.xiongyc: debug
+    com.xiongyc.product: DEBUG #INFO
  
