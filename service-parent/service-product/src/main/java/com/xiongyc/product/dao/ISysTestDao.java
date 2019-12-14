@@ -7,10 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import com.xiongyc.product.bean.SysTest;
 import com.xiongyc.utils.mybatis.Criteria;
+import com.xiongyc.utils.mybatis.MyDao;
 
 
 @Repository
-public interface ISysTestDao{
+public interface ISysTestDao extends MyDao<SysTest>{
 
 	/**
 	* 查询集合 
@@ -38,7 +39,7 @@ public interface ISysTestDao{
 	* @param record
 	* @return
 	*/
-	Integer insert(SysTest record);
+	int insert(SysTest record);
 
 	/**
 	* 批量新增实体 

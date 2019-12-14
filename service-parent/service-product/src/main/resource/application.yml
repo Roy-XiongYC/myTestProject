@@ -10,7 +10,7 @@ mybatis:
 
 mapper:
   mappers:
-      - com.xiongyc.product.dao.ISysTestDao
+      - com.xiongyc.utils.mybatis.MyDao
   not-empty: false
   identity: MYSQL
 
