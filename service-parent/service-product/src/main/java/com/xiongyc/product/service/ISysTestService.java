@@ -2,10 +2,9 @@ package com.xiongyc.product.service;
 
 
 import java.util.List;
-
+import com.xiongyc.utils.mybatis.Criteria;
 import com.github.pagehelper.PageInfo;
 import com.xiongyc.product.bean.SysTest;
-import com.xiongyc.utils.mybatis.Criteria;
 
 
 public interface ISysTestService{
@@ -16,13 +15,20 @@ public interface ISysTestService{
 * @return
 */
 PageInfo<SysTest> queryPage(Criteria<SysTest> param);
-//
-///**
-//* 查询集合总记录数 
-//* @param param
-//* @return
-//*/
-//Integer queryPageCount(Page<SysTest> page , Criteria<SysTest> param);
+
+/**
+* 查询集合 
+* @param param
+* @return
+*/
+List<SysTest> queryList(Criteria<SysTest> param);
+
+/**
+* 查询集合总记录数 
+* @param param
+* @return
+*/
+Integer queryPageCount(Criteria<SysTest> param);
 
 /**
 * 查询实体 
@@ -86,10 +92,6 @@ String deleteByCriteria(Criteria<SysTest> param);
 * @return
 */
 String deleteBatchByIds(String[] ids);
-
-
-
-PageInfo<SysTest> queryAll(Criteria<SysTest> param);
 
 
 

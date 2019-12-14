@@ -1,29 +1,30 @@
 package com.xiongyc.product.controller;
 
 import java.util.List;
+import com.alibaba.druid.util.StringUtils;
+import com.github.pagehelper.PageInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import com.alibaba.druid.util.StringUtils;
-import com.github.pagehelper.PageInfo;
-import com.xiongyc.product.bean.SysTest;
-import com.xiongyc.product.service.ISysTestService;
-import com.xiongyc.sequence.service.SequenceService;
-import com.xiongyc.utils.code.AppResponseCode;
 import com.xiongyc.utils.mybatis.Criteria;
 import com.xiongyc.utils.result.JsonResult;
-
+import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
+import com.xiongyc.sequence.service.SequenceService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import com.xiongyc.utils.code.AppResponseCode;
+
+import com.xiongyc.product.bean.SysTest;
+
+import com.xiongyc.product.service.ISysTestService;
 
 @RestController
 @Api(description = "")
@@ -42,13 +43,11 @@ public class SysTestController {
 			@ApiParam(name = "pageNum", value = "页码") @RequestParam(name = "pageNum", required = false, defaultValue = "1") Integer pageNum,
 			@ApiParam(name = "pageSize", value = "页面大小") @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize,
 			@ApiParam(name = "id", value = "主键ID") @RequestParam(required = false) String id) {
-		Criteria<SysTest> param = new Criteria<SysTest>(pageNum,pageSize);
-
+		Criteria<SysTest> param = new Criteria<SysTest>(pageNum, pageSize);
 		if (!StringUtils.isEmpty(id)) {
 			param.addParam("id", id);
 		}
 		param.setOrderBy("id desc");
-		
 		return AppResponseCode.success(sysTestService.queryPage(param));
 	}
 
