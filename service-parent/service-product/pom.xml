@@ -12,6 +12,7 @@
 	<artifactId>service-product</artifactId>
 	<packaging>jar</packaging>
 	<name>service-product</name>
+	
 	<dependencies>
 
 		<dependency>
