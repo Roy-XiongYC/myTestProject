@@ -33,7 +33,7 @@
 		order by ${orderBy} 
 	</if> 
 </select> 
-<select id="queryAll" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+<select id="queryList" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
 	select 
 	<include refid="Base_Column_List" />
 	from sys_test
