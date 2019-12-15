@@ -9,15 +9,22 @@
 		<artifactId>service-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+
 	<artifactId>service-product</artifactId>
 	<packaging>jar</packaging>
 	<name>service-product</name>
-	
+
 	<dependencies>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- 安全组件 -->
+		<dependency>
+			<groupId>com.xiongyc.component</groupId>
+			<artifactId>component-security</artifactId>
 		</dependency>
 
 		<!-- 通用公共组件（内置swagger组件） -->
