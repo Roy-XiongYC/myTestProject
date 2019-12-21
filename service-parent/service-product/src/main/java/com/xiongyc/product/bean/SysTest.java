@@ -7,7 +7,7 @@ import com.xiongyc.utils.mybatis.IModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("")
+@ApiModel("测试数据模型")
 public class SysTest implements IModel {
 
 	private static final long serialVersionUID = 1L;
@@ -16,13 +16,13 @@ public class SysTest implements IModel {
 		return ReflectionToStringBuilder.toString(this);
 	}
 
-	@ApiModelProperty(value = "")
+	@ApiModelProperty(value = "编号")
 	private String id;
 
-	@ApiModelProperty(value = "")
+	@ApiModelProperty(value = "名称")
 	private String name;
 
-	@ApiModelProperty(value = "")
+	@ApiModelProperty(value = "备注测试")
 	private String batTest;
 
 	public String getId() {
