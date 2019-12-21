@@ -8,6 +8,14 @@ mybatis:
   mapper-locations: # 所有的mapper映射文件
   - classpath:mapper/*.xml 
 
+api: 
+  swagger: 
+    basePackage: com.xiongyc.product
+    title: 产品服务
+    description: 这是一个声明
+    contact: YouCai.Xiong,www.baidu.com,764340703@qq.com
+    version: 1.0
+
 spring: 
   application: 
     name: product-service
