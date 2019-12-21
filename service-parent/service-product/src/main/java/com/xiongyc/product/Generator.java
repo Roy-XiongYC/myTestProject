@@ -1,8 +1,12 @@
 package com.xiongyc.product;
 
+import org.springframework.stereotype.Controller;
+
 import com.xiongyc.generator.Enter;
 
-public class App {
+@Controller
+public class Generator {
+
 	@SuppressWarnings("static-access")
 	public static void main(String[] args) {
 		new Enter().main(args);
