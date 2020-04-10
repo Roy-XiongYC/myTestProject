@@ -3,6 +3,14 @@ server:
   servlet:
     context-path: /product
 
+eureka:
+  client:
+    service-url:
+       defaultZone: http://admin:123456@127.0.0.1:9001/eureka
+  instance:
+    instance-id: product-service 
+    prefer-ip-address: true
+
 mybatis:
   type-aliases-package: com.xiongyc.product.bean
   mapper-locations: # 所有的mapper映射文件
