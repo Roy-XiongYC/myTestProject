@@ -1,3 +1,6 @@
+spring:   
+  profiles: dev3
+  
 server:
   port: 9003
 eureka:
@@ -8,9 +11,11 @@ eureka:
     fetch-registry: false
     register-with-eureka: false
     service-url:
-        defaultZone: http://admin:123456@127.0.0.1:9001/eureka,http://admin:123456@localhost:9002/eureka,http://admin:123456@10.125.30.18:9003/eureka
+#        defaultZone: http://admin:123456@127.0.0.1:9001/eureka,http://admin:123456@localhost:9002/eureka,http://admin:123456@10.125.30.18:9003/eureka
+        defaultZone: http://admin:123456@59.110.216.184:9001/eureka,http://admin:123456@47.107.181.95:9002/eureka,http://admin:123456@120.24.75.28:9003/eureka
   instance: # eureak实例定义
-    hostname: eureka3 # 定义 Eureka 实例所在的主机名称
+    hostname: 120.24.75.28 # 定义 Eureka 实例所在的主机名称
+    prefer-ip-address: true
   
 
  

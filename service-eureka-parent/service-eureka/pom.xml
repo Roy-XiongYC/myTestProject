@@ -41,5 +41,53 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>true</executable>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>1.1.0</version>
+				<dependencies>
+					<dependency>
+						<groupId>javax.activation</groupId>
+						<artifactId>activation</artifactId>
+						<version>1.1.1</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<baseImage>java:8u111-jdk</baseImage>
+					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+					<serverId>ECR</serverId>
+					<imageName>${IMAGE_REPO_NAME}</imageName>
+					<forceTags>true</forceTags>
+					<imageTags>
+						<imageTag>latest</imageTag>
+					</imageTags>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
