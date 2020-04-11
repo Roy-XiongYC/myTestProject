@@ -41,6 +41,8 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 	</dependencies>
+	
+	<!-- 打包插件，其中repackage、true是专门打spring boot专用包 -->
 	<build>
 		<plugins>
 			<plugin>

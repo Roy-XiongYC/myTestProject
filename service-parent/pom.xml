@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.2.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>com.xiongyc.service</groupId>
@@ -18,8 +20,8 @@
 
 	<modules>
 		<module>service-product</module>
-    <module>service-web</module>
-  </modules>
+		<module>service-web</module>
+	</modules>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -34,6 +36,13 @@
 			<dependency>
 				<groupId>com.xiongyc.service</groupId>
 				<artifactId>product-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- security 安全组件 -->
+			<dependency>
+				<groupId>com.xiongyc.component</groupId>
+				<artifactId>component-security</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -106,20 +115,5 @@
 			<url>http://172.1.1.167:8081/repository/maven-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
 
 </project>
