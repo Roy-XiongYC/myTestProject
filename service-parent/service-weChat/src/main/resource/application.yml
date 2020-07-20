@@ -8,6 +8,7 @@ eureka:
     service-url:
 #       defaultZone: http://admin:123456@120.24.75.28:9003/eureka/eureka
        defaultZone: http://admin:123456@59.110.216.184:9001/eureka,http://admin:123456@47.107.181.95:9002/eureka,http://admin:123456@120.24.75.28:9003/eureka
+    fetch-registry: false
   instance:
     instance-id: product-service 
     prefer-ip-address: true
@@ -47,4 +48,7 @@ spring:
 logging:
   level:
     com.xiongyc.product: DEBUG #INFO
+    
+wx:
+  token:token    
  
