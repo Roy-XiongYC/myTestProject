@@ -14,10 +14,10 @@ import com.xiongyc.product.config.ExcludeFromComponentScan;
 @MapperScan("com.xiongyc.product.dao")
 @SpringBootApplication
 @EnableEurekaClient
-public class weChatApplication {
+public class WeChatApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(weChatApplication.class, args);
+		SpringApplication.run(WeChatApplication.class, args);
 	}
 
 }
