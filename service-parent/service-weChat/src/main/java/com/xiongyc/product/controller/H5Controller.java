@@ -3,6 +3,7 @@ package com.xiongyc.product.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,5 +18,10 @@ public class H5Controller {
 	public String queryPage() {
 		return "index";
 	}
-
+	
+	@ResponseBody
+	@GetMapping("/getToken")
+	public String getToken() { 
+		return "index";
+	}
 }
