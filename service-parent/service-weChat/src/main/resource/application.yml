@@ -42,13 +42,15 @@ spring:
 #    password: 123456 # 数据库连接密码    
   redis: 
     port: 6379
-    host: 47.107.158.20
-    password: edo9567
+    host: galanz-b2x-uat.6b363o.0001.cnw1.cache.amazonaws.com.cn
+#    password: edo9567
   
 logging:
   level:
     com.xiongyc.product: DEBUG #INFO
     
-wx:
-  token:token    
- 
+wx: 
+  token: token    
+  appId: wxbbf02c89c3eadd61
+  appSecret: e5446349d5e000df0a8d9bbcc96978d5
+  grantType: client_credential
