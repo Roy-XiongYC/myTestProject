@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiongyc.product.dao.ISysUserDao">
+<resultMap id="BaseResultMap"  type="com.xiongyc.product.bean.SysUser" >
+	<result column="user_id" property="userId" jdbcType="VARCHAR" />
+	<result column="user_name" property="userName" jdbcType="VARCHAR" />
+	<result column="password" property="password" jdbcType="VARCHAR" />
+	<result column="user_status" property="userStatus" jdbcType="INTEGER" />
+	<result column="email_addr" property="emailAddr" jdbcType="VARCHAR" />
+	<result column="mp_no" property="mpNo" jdbcType="VARCHAR" />
+	<result column="password_exp_date" property="passwordExpDate" jdbcType="DATE" />
+	<result column="password_rep_times" property="passwordRepTimes" jdbcType="INTEGER" />
+	<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	<result column="group_name" property="groupName" jdbcType="VARCHAR" />
+	<result column="group_id" property="groupId" jdbcType="VARCHAR" />
+</resultMap> 
+<sql id="Criteria_Where_Clause"> 
+	<where> 
+		<if test="params.userId!=null">
+			 and user_id=#{params.userId}
+		</if>
+		<if test="params.userName!=null">
+			 and user_name=#{params.userName}
+		</if>
+		<if test="params.userNameLike!=null">
+			 and user_name like
+				CONCAT('%',#{params.userNameLike},'%')
+		</if>
+		<if test="params.password!=null">
+			 and password=#{params.password}
+		</if>
+		<if test="params.userStatus!=null">
+			 and user_status=#{params.userStatus}
+		</if>
+		<if test="params.emailAddr!=null">
+			 and email_addr=#{params.emailAddr}
+		</if>
+		<if test="params.mpNo!=null">
+			 and mp_no=#{params.mpNo}
+		</if>
+		<if test="params.passwordExpDate!=null">
+			 and password_exp_date=#{params.passwordExpDate}
+		</if>
+		<if test="params.passwordRepTimes!=null">
+			 and password_rep_times=#{params.passwordRepTimes}
+		</if>
+		<if test="params.createBy!=null">
+			 and create_by=#{params.createBy}
+		</if>
+		<if test="params.createTime!=null">
+			 and create_time=#{params.createTime}
+		</if>
+		<if test="params.userStatusIn!=null">
+			 and user_status in 
+			 <foreach item="item" index="index" collection="params.userStatusIn"
+					open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</where> 
+</sql> 
+<sql id="Base_Column_List">
+  u.user_id,u.user_name,u.password,u.user_status,u.email_addr,u.mp_no,u.password_exp_date,u.password_rep_times,u.create_by,u.create_time,g.group_name,g.group_id
+</sql> 
+<select id="queryPage" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_sys_user u left join t_sys_group_user s on s.user_id = u.user_id
+	left join t_sys_group g on g.group_id = s.group_id
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryPageCount" resultType="java.lang.Integer" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select count(1) from t_sys_user u left join t_sys_group_user s on s.user_id = u.user_id
+	left join t_sys_group g on g.group_id = s.group_id
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+</select> 
+<select id="queryEntity" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	u.user_id,u.user_name,u.password,u.user_status,u.email_addr,u.mp_no,u.password_exp_date,u.password_rep_times,u.create_by,u.create_time,g.group_name,g.group_id
+	from t_sys_user u left join t_sys_group_user gu on gu.user_id = u.user_id
+	left join (select group_id,group_name from t_sys_group where group_status = 1) as g on g.group_id = gu.group_id
+	where u.user_id = #{userId}
+</select>
+<insert id="insert" parameterType="com.xiongyc.product.bean.SysUser"> 
+	insert into t_sys_user
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="userId != null"> 
+			user_id,
+		</if>
+		<if test="userName != null"> 
+			user_name,
+		</if>
+		<if test="password != null"> 
+			password,
+		</if>
+		<if test="userStatus != null"> 
+			user_status,
+		</if>
+		<if test="emailAddr != null"> 
+			email_addr,
+		</if>
+		<if test="mpNo != null"> 
+			mp_no,
+		</if>
+		<if test="passwordExpDate != null"> 
+			password_exp_date,
+		</if>
+		<if test="passwordRepTimes != null"> 
+			password_rep_times,
+		</if>
+		<if test="createBy != null"> 
+			create_by,
+		</if>
+		<if test="createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="userId != null"> 
+		#{userId},
+	</if>
+	<if test="userName != null"> 
+		#{userName},
+	</if>
+	<if test="password != null"> 
+		#{password},
+	</if>
+	<if test="userStatus != null"> 
+		#{userStatus},
+	</if>
+	<if test="emailAddr != null"> 
+		#{emailAddr},
+	</if>
+	<if test="mpNo != null"> 
+		#{mpNo},
+	</if>
+	<if test="passwordExpDate != null"> 
+		#{passwordExpDate},
+	</if>
+	<if test="passwordRepTimes != null"> 
+		#{passwordRepTimes},
+	</if>
+	<if test="createBy != null"> 
+		#{createBy},
+	</if>
+	<if test="createTime != null"> 
+		#{createTime},
+	</if>
+	</trim>
+</insert>
+<update id="updateByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	update t_sys_user
+	<set>
+	<if test="record.userId != null"> 
+		user_id = #{record.userId},
+	</if>
+	<if test="record.userName != null"> 
+		user_name = #{record.userName},
+	</if>
+	<if test="record.password != null"> 
+		password = #{record.password},
+	</if>
+	<if test="record.userStatus != null"> 
+		user_status = #{record.userStatus},
+	</if>
+	<if test="record.emailAddr != null"> 
+		email_addr = #{record.emailAddr},
+	</if>
+	<if test="record.mpNo != null"> 
+		mp_no = #{record.mpNo},
+	</if>
+	<if test="record.passwordExpDate != null"> 
+		password_exp_date = #{record.passwordExpDate},
+	</if>
+	<if test="record.passwordRepTimes != null"> 
+		password_rep_times = #{record.passwordRepTimes},
+	</if>
+	<if test="record.createBy != null"> 
+		create_by = #{record.createBy},
+	</if>
+	<if test="record.createTime != null"> 
+		create_time = #{record.createTime},
+	</if>
+	</set>
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</update>
+<update id="changePassword" parameterType="map">
+		update t_sys_user set
+		password = #{password,jdbcType=VARCHAR},
+		password_exp_date =
+		#{passwordExpDate,jdbcType=DATE},
+		password_rep_times = 0
+		where user_id =
+		#{userId,jdbcType=VARCHAR}
+	</update>
+<delete id="deleteByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	delete from t_sys_user
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</delete>
+<delete id="deleteById" parameterType="java.lang.String">
+	delete from t_sys_user
+	where user_id = #{userId}
+</delete>
+</mapper>

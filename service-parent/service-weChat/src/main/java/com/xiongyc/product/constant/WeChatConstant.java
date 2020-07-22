@@ -1,4 +1,4 @@
-package com.xiongyc.product.common.constant;
+package com.xiongyc.product.constant;
 
 public class WeChatConstant {
 

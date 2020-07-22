@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.druid.util.StringUtils;
 import com.xiongyc.cache.RedisUtil;
-import com.xiongyc.product.common.constant.WeChatConstant;
+import com.xiongyc.product.constant.WeChatConstant;
 import com.xiongyc.product.result.WxResult;
 
 import io.swagger.annotations.Api;
