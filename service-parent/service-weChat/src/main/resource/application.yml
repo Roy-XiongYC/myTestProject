@@ -29,6 +29,13 @@ api:
 spring: 
   thymeleaf:
     prefix: classpath:/templates/
+    cache: false #关闭页面缓存
+#  mvc:
+#    static-path-pattern: /**
+  resources:
+    static-locations:
+    - classpath:static/   
+    
   application: 
     name: product-service
   datasource: 
