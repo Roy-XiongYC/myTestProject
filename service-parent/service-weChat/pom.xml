@@ -16,6 +16,13 @@
 
 	<dependencies>
 
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -39,10 +46,10 @@
 		</dependency>
 
 		<!-- 安全组件 -->
-		<dependency>
-			<groupId>com.xiongyc.component</groupId>
-			<artifactId>component-security</artifactId>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>com.xiongyc.component</groupId> -->
+		<!-- <artifactId>component-security</artifactId> -->
+		<!-- </dependency> -->
 
 		<!-- 通用公共组件（内置swagger组件） -->
 		<dependency>
