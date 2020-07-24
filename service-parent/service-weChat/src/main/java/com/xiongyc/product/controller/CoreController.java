@@ -57,9 +57,9 @@ public class CoreController {
 		log.info("echostr : " + echostr);
 		return echostr;
 	}
-
+	
 	/**
-	 * 获取用户收授权token
+	 * 获取商户token
 	 * @return
 	 */
 	public String getToken() {
@@ -82,4 +82,37 @@ public class CoreController {
 		}
 		return accessToken.toString();
 	}
+	
+	/**
+	 * 获取用户收授权token
+	 * @return
+	 */
+	public WxResult getAccessToken(String code) {
+		
+//		Object accessToken = redisUtil.get(WeChatConstant.ACCESSTOKEN);
+//		if(accessToken == null) {
+		String url = MessageFormat.format("https://api.weixin.qq.com/sns/oauth2/access_token?appid={0}&secret={1}&code={2}&grant_type=authorization_code", appId,appSecret,code);
+		ResponseEntity<WxResult> forEntity = restTemplate.getForEntity(url, WxResult.class);
+		
+		if(forEntity.getStatusCodeValue() != HttpStatus.SC_OK) {
+			log.error(" http 请求错误 ：" + forEntity.getStatusCode());
+			return null;
+		}
+		if(!StringUtils.isEmpty(forEntity.getBody().getErrcode())) {
+			log.error(" weChat 请求错误 ：" + forEntity.getBody().getErrcode() + "  " + forEntity.getBody().getErrmsg());
+			return null;
+		}
+		url = MessageFormat.format("https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid=OPENID&lang=zh_CN", forEntity.getBody().getAccess_token(),forEntity.getBody().getOpenid());
+		ResponseEntity<WxResult> entity = restTemplate.getForEntity(url, WxResult.class);
+		if(entity.getStatusCodeValue() != HttpStatus.SC_OK) {
+			log.error(" http 请求错误 ：" + entity.getStatusCode());
+			return null;
+		}
+		if(!StringUtils.isEmpty(forEntity.getBody().getErrcode())) {
+			log.error(" weChat 请求错误 ：" + entity.getBody().getErrcode() + "  " + entity.getBody().getErrmsg());
+			return null;
+		}
+		return entity.getBody();
+	}
+	
 }

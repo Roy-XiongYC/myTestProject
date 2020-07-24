@@ -5,13 +5,14 @@ server:
 
 eureka:
   client:
-    service-url:
+#    service-url:
 #       defaultZone: http://admin:123456@120.24.75.28:9003/eureka/eureka
-       defaultZone: http://admin:123456@59.110.216.184:9001/eureka,http://admin:123456@47.107.181.95:9002/eureka,http://admin:123456@120.24.75.28:9003/eureka
+#       defaultZone: http://admin:123456@59.110.216.184:9001/eureka,http://admin:123456@47.107.181.95:9002/eureka,http://admin:123456@120.24.75.28:9003/eureka
     fetch-registry: false
-  instance:
-    instance-id: product-service 
-    prefer-ip-address: true
+    register-with-eureka: false
+#  instance:
+#    instance-id: product-service 
+#    prefer-ip-address: true
 
 mybatis:
   type-aliases-package: com.xiongyc.product.bean
@@ -41,16 +42,16 @@ spring:
   datasource: 
     type: com.alibaba.druid.pool.DruidDataSource # 配置当前要使用的数据源的操作类型
     driver-class-name: com.mysql.cj.jdbc.Driver # 配置MySQL的驱动程序类
-    url: jdbc:mysql://120.79.207.20:3306/fsylitcps?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=GMT%2B8 # 数据库连接地址
-    username: erp # 数据库用户名
-    password: erp@fsfdad # 数据库连接密码   \
+    url: jdbc:mysql://47.107.87.255:3306/dika?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=GMT%2B8 # 数据库连接地址
+    username: root # 数据库用户名
+    password: root # 数据库连接密码   \
 #    url: jdbc:mysql://172.1.10.24:3306/afterSale?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
 #    username: root # 数据库用户名
 #    password: 123456 # 数据库连接密码    
   redis: 
     port: 6379
-    host: galanz-b2x-uat.6b363o.0001.cnw1.cache.amazonaws.com.cn
-#    password: edo9567
+    host: 47.107.87.255
+    password: xiong5710565
   
 logging:
   level:
