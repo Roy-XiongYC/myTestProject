@@ -21,7 +21,7 @@
 	<modules>
 		<module>service-product</module>
 		<module>service-web</module>
-		<module>service-weCha</module>
+		<module>service-weChat</module>
 	</modules>
 
 	<properties>
