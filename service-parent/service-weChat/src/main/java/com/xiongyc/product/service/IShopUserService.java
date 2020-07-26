@@ -4,87 +4,87 @@ package com.xiongyc.product.service;
 import java.util.List;
 import com.xiongyc.utils.mybatis.Criteria;
 import com.github.pagehelper.PageInfo;
-import com.xiongyc.product.bean.SysTest;
+import com.xiongyc.product.bean.ShopUser;
 
 
-public interface ISysTestService{
-
-/**
-* 查询集合 
-* @param param
-* @return
-*/
-PageInfo<SysTest> queryPage(Criteria<SysTest> param);
+public interface IShopUserService{
 
 /**
 * 查询集合 
 * @param param
 * @return
 */
-List<SysTest> queryList(Criteria<SysTest> param);
+PageInfo<ShopUser> queryPage(Criteria<ShopUser> param);
+
+/**
+* 查询集合 
+* @param param
+* @return
+*/
+List<ShopUser> queryList(Criteria<ShopUser> param);
 
 /**
 * 查询集合总记录数 
 * @param param
 * @return
 */
-Integer queryPageCount(Criteria<SysTest> param);
+Integer queryPageCount(Criteria<ShopUser> param);
 
 /**
 * 查询实体 
 * @param id
 * @return
 */
-SysTest queryEntityById(String id);
+ShopUser queryEntityById(String userId);
 
 /**
 * 新增实体 
 * @param record
 * @return
 */
-String insert(SysTest record);
+String insert(ShopUser record);
 
 /**
 * 批量新增实体 
 * @param list
 * @return
 */
-String insertBatch(List<SysTest> list);
+String insertBatch(List<ShopUser> list);
 
 /**
 * 更新实体 
 * @param param
 * @return
 */
-String updateByCriteria(Criteria<SysTest> param);
+String updateByCriteria(Criteria<ShopUser> param);
 
 /**
 * 批量更新实体 
 * @param param
 * @return
 */
-String updateBatchByCriteria(List<SysTest> list);
+String updateBatchByCriteria(List<ShopUser> list);
 
 /**
 * 批量保存实体 
 * @param list
 * @return
 */
-String insertOrUpdateBatch(List<SysTest> list);
+String insertOrUpdateBatch(List<ShopUser> list);
 
 /**
 * 删除实体 
 * @param id
 * @return
 */
-String deleteById(String id);
+String deleteById(String userId);
 
 /**
 * 删除实体 
 * @param model
 * @return
 */
-String deleteByCriteria(Criteria<SysTest> param);
+String deleteByCriteria(Criteria<ShopUser> param);
 
 /**
 * 批量删除实体 

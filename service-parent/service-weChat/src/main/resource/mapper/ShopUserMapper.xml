@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiongyc.product.dao.IShopUserDao">
+<resultMap id="BaseResultMap"  type="com.xiongyc.product.bean.ShopUser" >
+	<result column="user_id" property="userId" jdbcType="VARCHAR" />
+	<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+	<result column="union_id" property="unionId" jdbcType="VARCHAR" />
+	<result column="integral" property="integral" jdbcType="INTEGER" />
+	<result column="pwd" property="pwd" jdbcType="VARCHAR" />
+	<result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
+	<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+	<result column="sex" property="sex" jdbcType="INTEGER" />
+	<result column="country" property="country" jdbcType="VARCHAR" />
+	<result column="province" property="province" jdbcType="VARCHAR" />
+	<result column="city" property="city" jdbcType="VARCHAR" />
+	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+</resultMap> 
+<sql id="Criteria_Where_Clause"> 
+	<where> 
+		<if test="params.userId!=null">
+			 and user_id=#{params.userId}
+		</if>
+		<if test="params.nickName!=null">
+			 and nick_name=#{params.nickName}
+		</if>
+		<if test="params.unionId!=null">
+			 and union_id=#{params.unionId}
+		</if>
+		<if test="params.integral!=null">
+			 and integral=#{params.integral}
+		</if>
+		<if test="params.pwd!=null">
+			 and pwd=#{params.pwd}
+		</if>
+		<if test="params.headimgurl!=null">
+			 and headimgurl=#{params.headimgurl}
+		</if>
+		<if test="params.mobile!=null">
+			 and mobile=#{params.mobile}
+		</if>
+		<if test="params.sex!=null">
+			 and sex=#{params.sex}
+		</if>
+		<if test="params.country!=null">
+			 and country=#{params.country}
+		</if>
+		<if test="params.province!=null">
+			 and province=#{params.province}
+		</if>
+		<if test="params.city!=null">
+			 and city=#{params.city}
+		</if>
+		<if test="params.createTime!=null">
+			 and create_time=#{params.createTime}
+		</if>
+	</where> 
+</sql> 
+<sql id="Base_Column_List">
+  user_id,nick_name,union_id,integral,pwd,headimgurl,mobile,sex,country,province,city,create_time
+</sql> 
+<select id="queryPage" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_shop_user
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryList" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_shop_user
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryPageCount" resultType="java.lang.Integer" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select count(1) from t_shop_user 
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+</select> 
+<select id="queryEntityById" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	<include refid="Base_Column_List" />
+	from t_shop_user	where user_id = #{userId}
+</select>
+<insert id="insert" parameterType="com.xiongyc.product.bean.ShopUser"> 
+	insert into t_shop_user
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="userId != null"> 
+			user_id,
+		</if>
+		<if test="nickName != null"> 
+			nick_name,
+		</if>
+		<if test="unionId != null"> 
+			union_id,
+		</if>
+		<if test="integral != null"> 
+			integral,
+		</if>
+		<if test="pwd != null"> 
+			pwd,
+		</if>
+		<if test="headimgurl != null"> 
+			headimgurl,
+		</if>
+		<if test="mobile != null"> 
+			mobile,
+		</if>
+		<if test="sex != null"> 
+			sex,
+		</if>
+		<if test="country != null"> 
+			country,
+		</if>
+		<if test="province != null"> 
+			province,
+		</if>
+		<if test="city != null"> 
+			city,
+		</if>
+		<if test="createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="userId != null"> 
+		#{userId},
+	</if>
+	<if test="nickName != null"> 
+		#{nickName},
+	</if>
+	<if test="unionId != null"> 
+		#{unionId},
+	</if>
+	<if test="integral != null"> 
+		#{integral},
+	</if>
+	<if test="pwd != null"> 
+		#{pwd},
+	</if>
+	<if test="headimgurl != null"> 
+		#{headimgurl},
+	</if>
+	<if test="mobile != null"> 
+		#{mobile},
+	</if>
+	<if test="sex != null"> 
+		#{sex},
+	</if>
+	<if test="country != null"> 
+		#{country},
+	</if>
+	<if test="province != null"> 
+		#{province},
+	</if>
+	<if test="city != null"> 
+		#{city},
+	</if>
+	<if test="createTime != null"> 
+		#{createTime},
+	</if>
+	</trim>
+</insert>
+<insert id="insertBatch" parameterType="java.util.List"> 
+	insert into t_shop_user
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+			user_id,nick_name,union_id,integral,pwd,headimgurl,mobile,sex,country,province,city,create_time
+	</trim>
+	values
+	<foreach collection="list" item="item" separator=",">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			#{item.userId},#{item.nickName},#{item.unionId},#{item.integral},#{item.pwd},#{item.headimgurl},#{item.mobile},#{item.sex},#{item.country},#{item.province},#{item.city},#{item.createTime}
+		</trim>
+	</foreach>
+</insert>
+<!--  批量保存 存在更新不存在插入(如果指定一个on duplicate key update子句，并且要插入的行将导致唯一索引或主键中的值重复，
+则会更新旧行, 对于innodb表，如果a是自动递增列，则效果不相同。对于自动递增列，insert语句会增加自动递增值，但update不会。 )
+详细文档 https://dev.mysql.com/doc/refman/5.5/en/insert-on-duplicate.html -->
+<insert id="insertOrUpdateBatch" parameterType="java.util.List"> 
+	<foreach collection="list" item="item" separator=";">
+	insert into t_shop_user
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="item.userId != null"> 
+			user_id,
+		</if>
+		<if test="item.nickName != null"> 
+			nick_name,
+		</if>
+		<if test="item.unionId != null"> 
+			union_id,
+		</if>
+		<if test="item.integral != null"> 
+			integral,
+		</if>
+		<if test="item.pwd != null"> 
+			pwd,
+		</if>
+		<if test="item.headimgurl != null"> 
+			headimgurl,
+		</if>
+		<if test="item.mobile != null"> 
+			mobile,
+		</if>
+		<if test="item.sex != null"> 
+			sex,
+		</if>
+		<if test="item.country != null"> 
+			country,
+		</if>
+		<if test="item.province != null"> 
+			province,
+		</if>
+		<if test="item.city != null"> 
+			city,
+		</if>
+		<if test="item.createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="item.userId != null"> 
+		#{item.userId},
+	</if>
+	<if test="item.nickName != null"> 
+		#{item.nickName},
+	</if>
+	<if test="item.unionId != null"> 
+		#{item.unionId},
+	</if>
+	<if test="item.integral != null"> 
+		#{item.integral},
+	</if>
+	<if test="item.pwd != null"> 
+		#{item.pwd},
+	</if>
+	<if test="item.headimgurl != null"> 
+		#{item.headimgurl},
+	</if>
+	<if test="item.mobile != null"> 
+		#{item.mobile},
+	</if>
+	<if test="item.sex != null"> 
+		#{item.sex},
+	</if>
+	<if test="item.country != null"> 
+		#{item.country},
+	</if>
+	<if test="item.province != null"> 
+		#{item.province},
+	</if>
+	<if test="item.city != null"> 
+		#{item.city},
+	</if>
+	<if test="item.createTime != null"> 
+		#{item.createTime},
+	</if>
+	</trim>
+	ON DUPLICATE KEY UPDATE
+	nick_name = #{item.nickName},union_id = #{item.unionId},integral = #{item.integral},pwd = #{item.pwd},headimgurl = #{item.headimgurl},mobile = #{item.mobile},sex = #{item.sex},country = #{item.country},province = #{item.province},city = #{item.city},create_time = #{item.createTime}
+	</foreach>
+</insert>
+<update id="updateByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	update t_shop_user
+	<set>
+	<if test="record.userId != null"> 
+		user_id = #{record.userId},
+	</if>
+	<if test="record.nickName != null"> 
+		nick_name = #{record.nickName},
+	</if>
+	<if test="record.unionId != null"> 
+		union_id = #{record.unionId},
+	</if>
+	<if test="record.integral != null"> 
+		integral = #{record.integral},
+	</if>
+	<if test="record.pwd != null"> 
+		pwd = #{record.pwd},
+	</if>
+	<if test="record.headimgurl != null"> 
+		headimgurl = #{record.headimgurl},
+	</if>
+	<if test="record.mobile != null"> 
+		mobile = #{record.mobile},
+	</if>
+	<if test="record.sex != null"> 
+		sex = #{record.sex},
+	</if>
+	<if test="record.country != null"> 
+		country = #{record.country},
+	</if>
+	<if test="record.province != null"> 
+		province = #{record.province},
+	</if>
+	<if test="record.city != null"> 
+		city = #{record.city},
+	</if>
+	<if test="record.createTime != null"> 
+		create_time = #{record.createTime},
+	</if>
+	</set>
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</update>
+<update id="updateBatchByCriteria" parameterType="java.util.List">
+	<foreach collection="list" item="params" separator=";">
+		update t_shop_user
+		<set>
+		<if test="params.nickName != null"> 
+			nick_name = #{params.nickName},
+		</if>
+		<if test="params.unionId != null"> 
+			union_id = #{params.unionId},
+		</if>
+		<if test="params.integral != null"> 
+			integral = #{params.integral},
+		</if>
+		<if test="params.pwd != null"> 
+			pwd = #{params.pwd},
+		</if>
+		<if test="params.headimgurl != null"> 
+			headimgurl = #{params.headimgurl},
+		</if>
+		<if test="params.mobile != null"> 
+			mobile = #{params.mobile},
+		</if>
+		<if test="params.sex != null"> 
+			sex = #{params.sex},
+		</if>
+		<if test="params.country != null"> 
+			country = #{params.country},
+		</if>
+		<if test="params.province != null"> 
+			province = #{params.province},
+		</if>
+		<if test="params.city != null"> 
+			city = #{params.city},
+		</if>
+		<if test="params.createTime != null"> 
+			create_time = #{params.createTime},
+		</if>
+		</set>
+		<if test="params != null">
+			<where>
+				<if test="params.userId !=null">
+					and user_id=#{params.userId }
+				</if>
+			</where>
+		</if>
+	</foreach>
+</update>
+<delete id="deleteByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	delete from t_shop_user
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</delete>
+<delete id="deleteById" parameterType="java.lang.String">
+	delete from t_shop_user
+	where user_id = #{userId}
+</delete>
+<delete id="deleteBatchByIds">
+	delete from t_shop_user
+	where apply_id in
+	<foreach collection="array" item="id" open="(" close=")" separator=",">
+		#{id}
+	</foreach>
+</delete>
+</mapper>

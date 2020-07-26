@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.xiongyc.product.result.WxResult;
 
@@ -25,15 +26,15 @@ public class H5Controller {
 	@Autowired
 	private CoreController WxCore;
 
-//	@GetMapping("/redirect")
-//	public String redirectUrl(@RequestParam(name = "code") String code, @RequestParam(name = "state") String state,
-//			Model model) {
-//		System.out.println(code);
-//		System.out.println(state);
-//		model.addAttribute("userInfo",WxCore.getAccessToken(code));
-////		return "views/userInfo";
-//		return "redirect:http://47.107.87.255/admin/";
-//	}
+	@GetMapping("/redirect")
+	public String redirectUrl(@RequestParam(name = "code") String code, @RequestParam(name = "state") String state,
+			Model model) {
+		System.out.println(code);
+		System.out.println(state);
+		model.addAttribute("userInfo",WxCore.getAccessToken(code));
+//		return "views/userInfo";
+		return "redirect:http://47.107.87.255/admin/";
+	}
 
 	@ApiOperation(value = "翻页查询列表")
 	@GetMapping("/index")

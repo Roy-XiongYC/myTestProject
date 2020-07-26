@@ -9,72 +9,72 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.xiongyc.utils.mybatis.Criteria;
-import com.xiongyc.product.bean.SysTest;
-import com.xiongyc.product.service.ISysTestService;
+import com.xiongyc.product.bean.ShopUser;
+import com.xiongyc.product.service.IShopUserService;
 
 
-import com.xiongyc.product.dao.ISysTestDao;
+import com.xiongyc.product.dao.IShopUserDao;
 
 
 @Service
 @Transactional
-public class SysTestServiceImpl implements ISysTestService{
+public class ShopUserServiceImpl implements IShopUserService{
 
 @Override
-  public PageInfo<SysTest> queryPage(Criteria<SysTest> param){
+  public PageInfo<ShopUser> queryPage(Criteria<ShopUser> param){
     PageHelper.startPage(param.getPageNum(), param.getPageSize());
-    return  new PageInfo<SysTest>( sysTestDao.queryPage(param));
+    return  new PageInfo<ShopUser>( shopUserDao.queryPage(param));
   }
 
-  public List<SysTest> queryList(Criteria<SysTest> param){
-    return  sysTestDao.queryList(param);
-  }
-
-@Override
-  public Integer queryPageCount(Criteria<SysTest> param){
-    return (Integer) sysTestDao.queryPageCount(param);
+  public List<ShopUser> queryList(Criteria<ShopUser> param){
+    return  shopUserDao.queryList(param);
   }
 
 @Override
-  public SysTest queryEntityById(String id){
-    return sysTestDao.queryEntityById(id);
+  public Integer queryPageCount(Criteria<ShopUser> param){
+    return (Integer) shopUserDao.queryPageCount(param);
   }
 
 @Override
-  public String insert(SysTest record){
-    int result = sysTestDao.insert(record);
+  public ShopUser queryEntityById(String id){
+    return shopUserDao.queryEntityById(id);
+  }
+
+@Override
+  public String insert(ShopUser record){
+    int result = shopUserDao.insert(record);
     if ( result != 1) { 
       return AppResponseCode.RESPONSE_CODE_INSERT_FALSE.getMessage();    } 
     return null;
   }
 
 @Override
-  public String insertBatch(List<SysTest> list){
-    int result = sysTestDao.insertBatch(list);
+  public String insertBatch(List<ShopUser> list){
+    int result = shopUserDao.insertBatch(list);
     if ( result != list.size()) { 
       return AppResponseCode.RESPONSE_CODE_INSERT_FALSE.getMessage();    } 
     return null;
   }
 
 @Override
-  public String updateByCriteria(Criteria<SysTest> param){
-    int result = sysTestDao.updateByCriteria(param);
+  public String updateByCriteria(Criteria<ShopUser> param){
+    int result = shopUserDao.updateByCriteria(param);
     if ( result != 1) { 
       return AppResponseCode.RESPONSE_CODE_UPDATE_FALSE.getMessage();    } 
     return null;
   }
 
 @Override
-  public String updateBatchByCriteria(List<SysTest> list){
-    int result = sysTestDao.updateBatchByCriteria(list);
+  public String updateBatchByCriteria(List<ShopUser> list){
+    int result = shopUserDao.updateBatchByCriteria(list);
     if ( result == 0) { 
       return AppResponseCode.RESPONSE_CODE_UPDATE_FALSE.getMessage();    } 
     return null;
   }
 
 @Override
-  public String insertOrUpdateBatch(List<SysTest> list){
-    int result = sysTestDao.insertOrUpdateBatch(list);
+  public String insertOrUpdateBatch(List<ShopUser> list){
+    int result = shopUserDao.insertOrUpdateBatch(list);
     if ( result != list.size()) { 
       return AppResponseCode.RESPONSE_CODE_INSERT_FALSE.getMessage();    } 
     return null;
@@ -82,15 +82,15 @@ public class SysTestServiceImpl implements ISysTestService{
 
 @Override
   public String deleteById(String id){
-    int result = sysTestDao.deleteById(id);
+    int result = shopUserDao.deleteById(id);
     if ( result != 1) { 
       return AppResponseCode.RESPONSE_CODE_DEL_FALSE.getMessage();    } 
     return null;
   }
 
 @Override
-  public String deleteByCriteria(Criteria<SysTest> param){
-    int result = sysTestDao.deleteByCriteria(param);
+  public String deleteByCriteria(Criteria<ShopUser> param){
+    int result = shopUserDao.deleteByCriteria(param);
     if ( result < 1) { 
       return AppResponseCode.RESPONSE_CODE_DEL_FALSE.getMessage();    } 
     return null;
@@ -98,13 +98,13 @@ public class SysTestServiceImpl implements ISysTestService{
 
 @Override
   public String deleteBatchByIds(String[] ids){
-    int result = sysTestDao.deleteBatchByIds(ids);
+    int result = shopUserDao.deleteBatchByIds(ids);
     if ( result == 0) { 
       return AppResponseCode.RESPONSE_CODE_DEL_FALSE.getMessage();    } 
     return null;
   }
 
 @Autowired
-   private ISysTestDao sysTestDao;
+   private IShopUserDao shopUserDao;
 
 }
