@@ -1,95 +1,98 @@
 package com.xiongyc.product.service;
 
+
 import java.util.List;
-import java.util.Map;
-
-import com.xiongyc.product.bean.SysDict;
 import com.xiongyc.utils.mybatis.Criteria;
+import com.github.pagehelper.PageInfo;
+import com.xiongyc.product.bean.SysDict;
 
 
-public interface ISysDictService {
+public interface ISysDictService{
 
-	/**
-	 * 鏌ヨ闆嗗悎
-	 * 
-	 * @param param
-	 * @return
-	 */
-	List<SysDict> queryPage(Criteria<SysDict> param);
+/**
+* 查询集合 
+* @param param
+* @return
+*/
+PageInfo<SysDict> queryPage(Criteria<SysDict> param);
 
-	/**
-	 * 鏌ヨ闆嗗悎鎬昏褰曟暟
-	 * 
-	 * @param param
-	 * @return
-	 */
-	Integer queryPageCount(Criteria<SysDict> param);
+/**
+* 查询集合 
+* @param param
+* @return
+*/
+List<SysDict> queryList(Criteria<SysDict> param);
 
-	/**
-	 * 鏌ヨ瀹炰綋
-	 * 
-	 * @param id
-	 * @return
-	 */
-	SysDict queryEntityById(String id);
+/**
+* 查询集合总记录数 
+* @param param
+* @return
+*/
+Integer queryPageCount(Criteria<SysDict> param);
 
-	/**
-	 * 鏂板瀹炰綋
-	 * 
-	 * @param record
-	 * @return
-	 */
-	String insert(SysDict record);
-	String insertOrUpdate(SysDict record);
-	/**
-	 * 鏇存柊瀹炰綋
-	 * 
-	 * @param param
-	 * @return
-	 */
-	String updateByCriteria(Criteria<SysDict> param);
+/**
+* 查询实体 
+* @param id
+* @return
+*/
+SysDict queryEntityById(String dictId);
 
-	/**
-	 * 鍒犻櫎瀹炰綋
-	 * 
-	 * @param id
-	 * @return
-	 */
-	String deleteById(String id);
+/**
+* 新增实体 
+* @param record
+* @return
+*/
+String insert(SysDict record);
 
-	/**
-	 * 鍒犻櫎瀹炰綋
-	 * 
-	 * @param id
-	 * @return
-	 */
-	String deleteByCriteria(Criteria<SysDict> param);
-	
-	/**
-	 * 数据字典翻译 ，转换为 List <Map> 形式
-	 * 
-	 * @param data
-	 *            原始结果集 T为pojo对像，需要在翻译字段上加注解 Dict
-	 * 
-	 * @return 翻译后结果集
-	 * 
-	 * @see com.person.framework.annotation.Dict
-	 */
-	<T> List<Map<String, Object>> translateToMapList(List<T> data);
+/**
+* 批量新增实体 
+* @param list
+* @return
+*/
+String insertBatch(List<SysDict> list);
 
-	
-	/**
-	 * 数据字典翻译 ，转换为 Map 形式
-	 * 
-	 * @param data
-	 *            pojo对像，需要在翻译字段上加注解 Dict
-	 * 
-	 * @return 翻译后结果
-	 * 
-	 * @see com.person.framework.annotation.Dict
-	 */
-	Map<String, Object> translateToMap(Object obj);
+/**
+* 更新实体 
+* @param param
+* @return
+*/
+String updateByCriteria(Criteria<SysDict> param);
 
-	List<Map<String, Object>> queryPageList(Criteria<SysDict> param);
+/**
+* 批量更新实体 
+* @param param
+* @return
+*/
+String updateBatchByCriteria(List<SysDict> list);
+
+/**
+* 批量保存实体 
+* @param list
+* @return
+*/
+String insertOrUpdateBatch(List<SysDict> list);
+
+/**
+* 删除实体 
+* @param id
+* @return
+*/
+String deleteById(String dictId);
+
+/**
+* 删除实体 
+* @param model
+* @return
+*/
+String deleteByCriteria(Criteria<SysDict> param);
+
+/**
+* 批量删除实体 
+* @param ids
+* @return
+*/
+String deleteBatchByIds(String[] ids);
+
+
 
 }

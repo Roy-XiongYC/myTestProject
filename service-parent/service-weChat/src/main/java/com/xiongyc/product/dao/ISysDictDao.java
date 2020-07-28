@@ -2,63 +2,99 @@ package com.xiongyc.product.dao;
 
 
 import java.util.List;
-
-import com.xiongyc.product.bean.SysDict;
 import com.xiongyc.utils.mybatis.Criteria;
+import org.springframework.stereotype.Repository;
+import com.xiongyc.utils.mybatis.MyDao;
+import com.xiongyc.product.bean.SysDict;
 
 
-public interface ISysDictDao{
+@Repository
+public interface ISysDictDao extends MyDao<SysDict>{
 
 	/**
-	* 鏌ヨ闆嗗悎 
+	* 查询集合 
 	* @param param
 	* @return
 	*/
 	List<SysDict> queryPage(Criteria<SysDict> param);
 
 	/**
-	* 鏌ヨ闆嗗悎鎬昏褰曟暟 
+	* 查询集合 
+	* @param param
+	* @return
+	*/
+	List<SysDict> queryList(Criteria<SysDict> param);
+
+	/**
+	* 查询集合总记录数 
 	* @param param
 	* @return
 	*/
 	Integer queryPageCount(Criteria<SysDict> param);
 
 	/**
-	* 鏌ヨ瀹炰綋 
+	* 查询实体 
 	* @param id
 	* @return
 	*/
-	SysDict queryEntityById(String id);
+	SysDict queryEntityById(String dictId);
 
 	/**
-	* 鏂板瀹炰綋 
+	* 新增实体 
 	* @param record
 	* @return
 	*/
-	Integer insert(SysDict record);
+	int insert(SysDict record);
 
 	/**
-	* 鏇存柊瀹炰綋 
+	* 批量新增实体 
+	* @param list
+	* @return
+	*/
+	Integer insertBatch(List<SysDict> list);
+
+	/**
+	* 更新实体 
 	* @param param
 	* @return
 	*/
 	Integer updateByCriteria(Criteria<SysDict> param);
 
 	/**
-	* 鍒犻櫎瀹炰綋 
+	* 批量更新实体 
+	* @param list
+	* @return
+	*/
+	Integer updateBatchByCriteria(List<SysDict> list);
+
+	/**
+	* 批量保存实体 
+	* @param list
+	* @return
+	*/
+	Integer insertOrUpdateBatch(List<SysDict> list);
+
+	/**
+	* 删除实体 
 	* @param id
 	* @return
 	*/
-	Integer deleteById(String id);
+	Integer deleteById(String dictId);
 
 	/**
-	* 鍒犻櫎瀹炰綋 
+	* 删除实体 
 	* @param id
 	* @return
 	*/
 	Integer deleteByCriteria(Criteria<SysDict> param);
 
-	static final String MAPPER_NAMESPACE = "com.person.web.admin.repository.SysDictMapper";
+	/**
+	* 删除实体 
+	* @param ids
+	* @return
+	*/
+	Integer deleteBatchByIds(String[] array);
+
 
 
 }
