@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiongyc.product.dao.IPetsClassDao">
+<resultMap id="BaseResultMap"  type="com.xiongyc.product.bean.PetsClass" >
+	<result column="class_id" property="classId" jdbcType="VARCHAR" />
+	<result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+	<result column="class_name" property="className" jdbcType="VARCHAR" />
+	<result column="order_by" property="orderBy" jdbcType="VARCHAR" />
+	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+</resultMap> 
+<sql id="Criteria_Where_Clause"> 
+	<where> 
+		<if test="params.classId!=null">
+			 and class_id=#{params.classId}
+		</if>
+		<if test="params.parentId!=null">
+			 and parent_id=#{params.parentId}
+		</if>
+		<if test="params.className!=null">
+			 and class_name=#{params.className}
+		</if>
+		<if test="params.orderBy!=null">
+			 and order_by=#{params.orderBy}
+		</if>
+		<if test="params.createTime!=null">
+			 and create_time=#{params.createTime}
+		</if>
+	</where> 
+</sql> 
+<sql id="Base_Column_List">
+  class_id,parent_id,class_name,order_by,create_time
+</sql> 
+<select id="queryPage" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_pets_class
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryList" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_pets_class
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryPageCount" resultType="java.lang.Integer" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select count(1) from t_pets_class 
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+</select> 
+<select id="queryEntityById" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	<include refid="Base_Column_List" />
+	from t_pets_class	where class_id = #{classId}
+</select>
+<insert id="insert" parameterType="com.xiongyc.product.bean.PetsClass"> 
+	insert into t_pets_class
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="classId != null"> 
+			class_id,
+		</if>
+		<if test="parentId != null"> 
+			parent_id,
+		</if>
+		<if test="className != null"> 
+			class_name,
+		</if>
+		<if test="orderBy != null"> 
+			order_by,
+		</if>
+		<if test="createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="classId != null"> 
+		#{classId},
+	</if>
+	<if test="parentId != null"> 
+		#{parentId},
+	</if>
+	<if test="className != null"> 
+		#{className},
+	</if>
+	<if test="orderBy != null"> 
+		#{orderBy},
+	</if>
+	<if test="createTime != null"> 
+		#{createTime},
+	</if>
+	</trim>
+</insert>
+<insert id="insertBatch" parameterType="java.util.List"> 
+	insert into t_pets_class
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+			class_id,parent_id,class_name,order_by,create_time
+	</trim>
+	values
+	<foreach collection="list" item="item" separator=",">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			#{item.classId},#{item.parentId},#{item.className},#{item.orderBy},#{item.createTime}
+		</trim>
+	</foreach>
+</insert>
+<!--  批量保存 存在更新不存在插入(如果指定一个on duplicate key update子句，并且要插入的行将导致唯一索引或主键中的值重复，
+则会更新旧行, 对于innodb表，如果a是自动递增列，则效果不相同。对于自动递增列，insert语句会增加自动递增值，但update不会。 )
+详细文档 https://dev.mysql.com/doc/refman/5.5/en/insert-on-duplicate.html -->
+<insert id="insertOrUpdateBatch" parameterType="java.util.List"> 
+	<foreach collection="list" item="item" separator=";">
+	insert into t_pets_class
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="item.classId != null"> 
+			class_id,
+		</if>
+		<if test="item.parentId != null"> 
+			parent_id,
+		</if>
+		<if test="item.className != null"> 
+			class_name,
+		</if>
+		<if test="item.orderBy != null"> 
+			order_by,
+		</if>
+		<if test="item.createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="item.classId != null"> 
+		#{item.classId},
+	</if>
+	<if test="item.parentId != null"> 
+		#{item.parentId},
+	</if>
+	<if test="item.className != null"> 
+		#{item.className},
+	</if>
+	<if test="item.orderBy != null"> 
+		#{item.orderBy},
+	</if>
+	<if test="item.createTime != null"> 
+		#{item.createTime},
+	</if>
+	</trim>
+	ON DUPLICATE KEY UPDATE
+	parent_id = #{item.parentId},class_name = #{item.className},order_by = #{item.orderBy},create_time = #{item.createTime}
+	</foreach>
+</insert>
+<update id="updateByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	update t_pets_class
+	<set>
+	<if test="record.classId != null"> 
+		class_id = #{record.classId},
+	</if>
+	<if test="record.parentId != null"> 
+		parent_id = #{record.parentId},
+	</if>
+	<if test="record.className != null"> 
+		class_name = #{record.className},
+	</if>
+	<if test="record.orderBy != null"> 
+		order_by = #{record.orderBy},
+	</if>
+	<if test="record.createTime != null"> 
+		create_time = #{record.createTime},
+	</if>
+	</set>
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</update>
+<update id="updateBatchByCriteria" parameterType="java.util.List">
+	<foreach collection="list" item="params" separator=";">
+		update t_pets_class
+		<set>
+		<if test="params.parentId != null"> 
+			parent_id = #{params.parentId},
+		</if>
+		<if test="params.className != null"> 
+			class_name = #{params.className},
+		</if>
+		<if test="params.orderBy != null"> 
+			order_by = #{params.orderBy},
+		</if>
+		<if test="params.createTime != null"> 
+			create_time = #{params.createTime},
+		</if>
+		</set>
+		<if test="params != null">
+			<where>
+				<if test="params.classId !=null">
+					and class_id=#{params.classId }
+				</if>
+			</where>
+		</if>
+	</foreach>
+</update>
+<delete id="deleteByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	delete from t_pets_class
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</delete>
+<delete id="deleteById" parameterType="java.lang.String">
+	delete from t_pets_class
+	where class_id = #{classId}
+</delete>
+<delete id="deleteBatchByIds">
+	delete from t_pets_class
+	where apply_id in
+	<foreach collection="array" item="id" open="(" close=")" separator=",">
+		#{id}
+	</foreach>
+</delete>
+</mapper>
