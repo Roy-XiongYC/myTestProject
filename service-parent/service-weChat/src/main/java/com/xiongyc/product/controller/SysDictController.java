@@ -1,29 +1,30 @@
 package com.xiongyc.product.controller;
 
 import java.util.List;
-import com.alibaba.druid.util.StringUtils;
-import com.github.pagehelper.PageInfo;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.druid.util.StringUtils;
+import com.github.pagehelper.PageInfo;
+import com.xiongyc.product.bean.SysDict;
+import com.xiongyc.product.service.ISysDictService;
+import com.xiongyc.sequence.service.SequenceService;
+import com.xiongyc.utils.code.AppResponseCode;
 import com.xiongyc.utils.mybatis.Criteria;
 import com.xiongyc.utils.result.JsonResult;
-import org.springframework.web.bind.annotation.RestController;
+
 import io.swagger.annotations.Api;
-import com.xiongyc.sequence.service.SequenceService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import com.xiongyc.utils.code.AppResponseCode;
-
-import com.xiongyc.product.bean.SysDict;
-
-import com.xiongyc.product.service.ISysDictService;
 
 @RestController
 @Api(description = "字典表")
@@ -66,6 +67,12 @@ public class SysDictController {
 		return ret == null ? AppResponseCode.success() : AppResponseCode.failure();
 	}
 
+	@GetMapping("/queryEntityByDictCode")
+	public JsonResult<Map<String ,List<SysDict>>> queryEntityByDictCode(@ApiParam(name = "dictCode", value = "编码") @RequestParam(required = false) String... dictCode) {
+		return AppResponseCode.success(sysDictService.queryEntityByDictCode(dictCode));
+	}
+
+	
 	@ApiOperation(value = "批量新增数据")
 	@PostMapping("/addBatch")
 	public JsonResult<Object> addBatch(@RequestBody List<SysDict> list) {
