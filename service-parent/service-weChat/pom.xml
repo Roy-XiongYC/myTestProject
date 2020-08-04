@@ -36,7 +36,7 @@
 		<!-- 健康检擦插件 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-actuator</artifactId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 		<!-- eureka 客户端 -->
