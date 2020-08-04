@@ -6,11 +6,19 @@ server:
 eureka:
   client:
     service-url:
-       defaultZone: http://admin:123456@120.24.75.28:9003/eureka/eureka
+       defaultZone: http://admin:123456@47.107.181.95:9002/eureka/eureka
 #        defaultZone: http://admin:123456@59.110.216.184:9001/eureka,http://admin:123456@47.107.181.95:9002/eureka,http://admin:123456@120.24.75.28:9003/eureka
   instance:
-    instance-id: product-service 
+    instance-id: product.service
     prefer-ip-address: true
+    ip-address: 127.0.0.2
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - "*"  # * 在yml 文件属于关键字，所以需要加引号       
 
 mybatis:
   type-aliases-package: com.xiongyc.product.bean
