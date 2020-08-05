@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiongyc.product.dao.IShopOrderDao">
+<resultMap id="BaseResultMap"  type="com.xiongyc.product.bean.ShopOrder" >
+	<result column="order_id" property="orderId" jdbcType="VARCHAR" />
+	<result column="order_type" property="orderType" jdbcType="INTEGER" />
+	<result column="user_id" property="userId" jdbcType="VARCHAR" />
+	<result column="user_name" property="userName" jdbcType="VARCHAR" />
+	<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+	<result column="goods_info" property="goodsInfo" jdbcType="VARCHAR" />
+	<result column="pay_price" property="payPrice" jdbcType="DECIMAL" />
+	<result column="order_price" property="orderPrice" jdbcType="DECIMAL" />
+	<result column="remark" property="remark" jdbcType="VARCHAR" />
+	<result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+</resultMap> 
+<sql id="Criteria_Where_Clause"> 
+	<where> 
+		<if test="params.orderId!=null">
+			 and order_id=#{params.orderId}
+		</if>
+		<if test="params.orderType!=null">
+			 and order_type=#{params.orderType}
+		</if>
+		<if test="params.userId!=null">
+			 and user_id=#{params.userId}
+		</if>
+		<if test="params.userName!=null">
+			 and user_name=#{params.userName}
+		</if>
+		<if test="params.mobile!=null">
+			 and mobile=#{params.mobile}
+		</if>
+		<if test="params.goodsInfo!=null">
+			 and goods_info=#{params.goodsInfo}
+		</if>
+		<if test="params.payPrice!=null">
+			 and pay_price=#{params.payPrice}
+		</if>
+		<if test="params.orderPrice!=null">
+			 and order_price=#{params.orderPrice}
+		</if>
+		<if test="params.remark!=null">
+			 and remark=#{params.remark}
+		</if>
+		<if test="params.orderStatus!=null">
+			 and order_status=#{params.orderStatus}
+		</if>
+		<if test="params.createTime!=null">
+			 and create_time=#{params.createTime}
+		</if>
+	</where> 
+</sql> 
+<sql id="Base_Column_List">
+  order_id,order_type,user_id,user_name,mobile,goods_info,pay_price,order_price,remark,order_status,create_time
+</sql> 
+<select id="queryPage" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_shop_order
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryList" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_shop_order
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryPageCount" resultType="java.lang.Integer" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select count(1) from t_shop_order 
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+</select> 
+<select id="queryEntityById" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	<include refid="Base_Column_List" />
+	from t_shop_order	where order_id = #{orderId}
+</select>
+<insert id="insert" parameterType="com.xiongyc.product.bean.ShopOrder"> 
+	insert into t_shop_order
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="orderId != null"> 
+			order_id,
+		</if>
+		<if test="orderType != null"> 
+			order_type,
+		</if>
+		<if test="userId != null"> 
+			user_id,
+		</if>
+		<if test="userName != null"> 
+			user_name,
+		</if>
+		<if test="mobile != null"> 
+			mobile,
+		</if>
+		<if test="goodsInfo != null"> 
+			goods_info,
+		</if>
+		<if test="payPrice != null"> 
+			pay_price,
+		</if>
+		<if test="orderPrice != null"> 
+			order_price,
+		</if>
+		<if test="remark != null"> 
+			remark,
+		</if>
+		<if test="orderStatus != null"> 
+			order_status,
+		</if>
+		<if test="createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="orderId != null"> 
+		#{orderId},
+	</if>
+	<if test="orderType != null"> 
+		#{orderType},
+	</if>
+	<if test="userId != null"> 
+		#{userId},
+	</if>
+	<if test="userName != null"> 
+		#{userName},
+	</if>
+	<if test="mobile != null"> 
+		#{mobile},
+	</if>
+	<if test="goodsInfo != null"> 
+		#{goodsInfo},
+	</if>
+	<if test="payPrice != null"> 
+		#{payPrice},
+	</if>
+	<if test="orderPrice != null"> 
+		#{orderPrice},
+	</if>
+	<if test="remark != null"> 
+		#{remark},
+	</if>
+	<if test="orderStatus != null"> 
+		#{orderStatus},
+	</if>
+	<if test="createTime != null"> 
+		#{createTime},
+	</if>
+	</trim>
+</insert>
+<insert id="insertBatch" parameterType="java.util.List"> 
+	insert into t_shop_order
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+			order_id,order_type,user_id,user_name,mobile,goods_info,pay_price,order_price,remark,order_status,create_time
+	</trim>
+	values
+	<foreach collection="list" item="item" separator=",">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			#{item.orderId},#{item.orderType},#{item.userId},#{item.userName},#{item.mobile},#{item.goodsInfo},#{item.payPrice},#{item.orderPrice},#{item.remark},#{item.orderStatus},#{item.createTime}
+		</trim>
+	</foreach>
+</insert>
+<!--  批量保存 存在更新不存在插入(如果指定一个on duplicate key update子句，并且要插入的行将导致唯一索引或主键中的值重复，
+则会更新旧行, 对于innodb表，如果a是自动递增列，则效果不相同。对于自动递增列，insert语句会增加自动递增值，但update不会。 )
+详细文档 https://dev.mysql.com/doc/refman/5.5/en/insert-on-duplicate.html -->
+<insert id="insertOrUpdateBatch" parameterType="java.util.List"> 
+	<foreach collection="list" item="item" separator=";">
+	insert into t_shop_order
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="item.orderId != null"> 
+			order_id,
+		</if>
+		<if test="item.orderType != null"> 
+			order_type,
+		</if>
+		<if test="item.userId != null"> 
+			user_id,
+		</if>
+		<if test="item.userName != null"> 
+			user_name,
+		</if>
+		<if test="item.mobile != null"> 
+			mobile,
+		</if>
+		<if test="item.goodsInfo != null"> 
+			goods_info,
+		</if>
+		<if test="item.payPrice != null"> 
+			pay_price,
+		</if>
+		<if test="item.orderPrice != null"> 
+			order_price,
+		</if>
+		<if test="item.remark != null"> 
+			remark,
+		</if>
+		<if test="item.orderStatus != null"> 
+			order_status,
+		</if>
+		<if test="item.createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="item.orderId != null"> 
+		#{item.orderId},
+	</if>
+	<if test="item.orderType != null"> 
+		#{item.orderType},
+	</if>
+	<if test="item.userId != null"> 
+		#{item.userId},
+	</if>
+	<if test="item.userName != null"> 
+		#{item.userName},
+	</if>
+	<if test="item.mobile != null"> 
+		#{item.mobile},
+	</if>
+	<if test="item.goodsInfo != null"> 
+		#{item.goodsInfo},
+	</if>
+	<if test="item.payPrice != null"> 
+		#{item.payPrice},
+	</if>
+	<if test="item.orderPrice != null"> 
+		#{item.orderPrice},
+	</if>
+	<if test="item.remark != null"> 
+		#{item.remark},
+	</if>
+	<if test="item.orderStatus != null"> 
+		#{item.orderStatus},
+	</if>
+	<if test="item.createTime != null"> 
+		#{item.createTime},
+	</if>
+	</trim>
+	ON DUPLICATE KEY UPDATE
+	order_type = #{item.orderType},user_id = #{item.userId},user_name = #{item.userName},mobile = #{item.mobile},goods_info = #{item.goodsInfo},pay_price = #{item.payPrice},order_price = #{item.orderPrice},remark = #{item.remark},order_status = #{item.orderStatus},create_time = #{item.createTime}
+	</foreach>
+</insert>
+<update id="updateByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	update t_shop_order
+	<set>
+	<if test="record.orderId != null"> 
+		order_id = #{record.orderId},
+	</if>
+	<if test="record.orderType != null"> 
+		order_type = #{record.orderType},
+	</if>
+	<if test="record.userId != null"> 
+		user_id = #{record.userId},
+	</if>
+	<if test="record.userName != null"> 
+		user_name = #{record.userName},
+	</if>
+	<if test="record.mobile != null"> 
+		mobile = #{record.mobile},
+	</if>
+	<if test="record.goodsInfo != null"> 
+		goods_info = #{record.goodsInfo},
+	</if>
+	<if test="record.payPrice != null"> 
+		pay_price = #{record.payPrice},
+	</if>
+	<if test="record.orderPrice != null"> 
+		order_price = #{record.orderPrice},
+	</if>
+	<if test="record.remark != null"> 
+		remark = #{record.remark},
+	</if>
+	<if test="record.orderStatus != null"> 
+		order_status = #{record.orderStatus},
+	</if>
+	<if test="record.createTime != null"> 
+		create_time = #{record.createTime},
+	</if>
+	</set>
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</update>
+<update id="updateBatchByCriteria" parameterType="java.util.List">
+	<foreach collection="list" item="params" separator=";">
+		update t_shop_order
+		<set>
+		<if test="params.orderType != null"> 
+			order_type = #{params.orderType},
+		</if>
+		<if test="params.userId != null"> 
+			user_id = #{params.userId},
+		</if>
+		<if test="params.userName != null"> 
+			user_name = #{params.userName},
+		</if>
+		<if test="params.mobile != null"> 
+			mobile = #{params.mobile},
+		</if>
+		<if test="params.goodsInfo != null"> 
+			goods_info = #{params.goodsInfo},
+		</if>
+		<if test="params.payPrice != null"> 
+			pay_price = #{params.payPrice},
+		</if>
+		<if test="params.orderPrice != null"> 
+			order_price = #{params.orderPrice},
+		</if>
+		<if test="params.remark != null"> 
+			remark = #{params.remark},
+		</if>
+		<if test="params.orderStatus != null"> 
+			order_status = #{params.orderStatus},
+		</if>
+		<if test="params.createTime != null"> 
+			create_time = #{params.createTime},
+		</if>
+		</set>
+		<if test="params != null">
+			<where>
+				<if test="params.orderId !=null">
+					and order_id=#{params.orderId }
+				</if>
+			</where>
+		</if>
+	</foreach>
+</update>
+<delete id="deleteByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	delete from t_shop_order
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</delete>
+<delete id="deleteById" parameterType="java.lang.String">
+	delete from t_shop_order
+	where order_id = #{orderId}
+</delete>
+<delete id="deleteBatchByIds">
+	delete from t_shop_order
+	where apply_id in
+	<foreach collection="array" item="id" open="(" close=")" separator=",">
+		#{id}
+	</foreach>
+</delete>
+</mapper>

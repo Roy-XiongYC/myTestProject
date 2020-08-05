@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiongyc.product.dao.IShopGoodDao">
+<resultMap id="BaseResultMap"  type="com.xiongyc.product.bean.ShopGood" >
+	<result column="good_id" property="goodId" jdbcType="VARCHAR" />
+	<result column="good_name" property="goodName" jdbcType="VARCHAR" />
+	<result column="good_num" property="goodNum" jdbcType="INTEGER" />
+	<result column="good_pic" property="goodPic" jdbcType="VARCHAR" />
+	<result column="good_info" property="goodInfo" jdbcType="VARCHAR" />
+	<result column="good_price" property="goodPrice" jdbcType="DECIMAL" />
+	<result column="pay_price" property="payPrice" jdbcType="DECIMAL" />
+	<result column="good_status" property="goodStatus" jdbcType="INTEGER" />
+	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+</resultMap> 
+<sql id="Criteria_Where_Clause"> 
+	<where> 
+		<if test="params.goodId!=null">
+			 and good_id=#{params.goodId}
+		</if>
+		<if test="params.goodName!=null">
+			 and good_name=#{params.goodName}
+		</if>
+		<if test="params.goodNum!=null">
+			 and good_num=#{params.goodNum}
+		</if>
+		<if test="params.goodPic!=null">
+			 and good_pic=#{params.goodPic}
+		</if>
+		<if test="params.goodInfo!=null">
+			 and good_info=#{params.goodInfo}
+		</if>
+		<if test="params.goodPrice!=null">
+			 and good_price=#{params.goodPrice}
+		</if>
+		<if test="params.payPrice!=null">
+			 and pay_price=#{params.payPrice}
+		</if>
+		<if test="params.goodStatus!=null">
+			 and good_status=#{params.goodStatus}
+		</if>
+		<if test="params.createTime!=null">
+			 and create_time=#{params.createTime}
+		</if>
+	</where> 
+</sql> 
+<sql id="Base_Column_List">
+  good_id,good_name,good_num,good_pic,good_info,good_price,pay_price,good_status,create_time
+</sql> 
+<select id="queryPage" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_shop_good
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryList" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_shop_good
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryPageCount" resultType="java.lang.Integer" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select count(1) from t_shop_good 
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+</select> 
+<select id="queryEntityById" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	<include refid="Base_Column_List" />
+	from t_shop_good	where good_id = #{goodId}
+</select>
+<insert id="insert" parameterType="com.xiongyc.product.bean.ShopGood"> 
+	insert into t_shop_good
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="goodId != null"> 
+			good_id,
+		</if>
+		<if test="goodName != null"> 
+			good_name,
+		</if>
+		<if test="goodNum != null"> 
+			good_num,
+		</if>
+		<if test="goodPic != null"> 
+			good_pic,
+		</if>
+		<if test="goodInfo != null"> 
+			good_info,
+		</if>
+		<if test="goodPrice != null"> 
+			good_price,
+		</if>
+		<if test="payPrice != null"> 
+			pay_price,
+		</if>
+		<if test="goodStatus != null"> 
+			good_status,
+		</if>
+		<if test="createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="goodId != null"> 
+		#{goodId},
+	</if>
+	<if test="goodName != null"> 
+		#{goodName},
+	</if>
+	<if test="goodNum != null"> 
+		#{goodNum},
+	</if>
+	<if test="goodPic != null"> 
+		#{goodPic},
+	</if>
+	<if test="goodInfo != null"> 
+		#{goodInfo},
+	</if>
+	<if test="goodPrice != null"> 
+		#{goodPrice},
+	</if>
+	<if test="payPrice != null"> 
+		#{payPrice},
+	</if>
+	<if test="goodStatus != null"> 
+		#{goodStatus},
+	</if>
+	<if test="createTime != null"> 
+		#{createTime},
+	</if>
+	</trim>
+</insert>
+<insert id="insertBatch" parameterType="java.util.List"> 
+	insert into t_shop_good
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+			good_id,good_name,good_num,good_pic,good_info,good_price,pay_price,good_status,create_time
+	</trim>
+	values
+	<foreach collection="list" item="item" separator=",">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			#{item.goodId},#{item.goodName},#{item.goodNum},#{item.goodPic},#{item.goodInfo},#{item.goodPrice},#{item.payPrice},#{item.goodStatus},#{item.createTime}
+		</trim>
+	</foreach>
+</insert>
+<!--  批量保存 存在更新不存在插入(如果指定一个on duplicate key update子句，并且要插入的行将导致唯一索引或主键中的值重复，
+则会更新旧行, 对于innodb表，如果a是自动递增列，则效果不相同。对于自动递增列，insert语句会增加自动递增值，但update不会。 )
+详细文档 https://dev.mysql.com/doc/refman/5.5/en/insert-on-duplicate.html -->
+<insert id="insertOrUpdateBatch" parameterType="java.util.List"> 
+	<foreach collection="list" item="item" separator=";">
+	insert into t_shop_good
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="item.goodId != null"> 
+			good_id,
+		</if>
+		<if test="item.goodName != null"> 
+			good_name,
+		</if>
+		<if test="item.goodNum != null"> 
+			good_num,
+		</if>
+		<if test="item.goodPic != null"> 
+			good_pic,
+		</if>
+		<if test="item.goodInfo != null"> 
+			good_info,
+		</if>
+		<if test="item.goodPrice != null"> 
+			good_price,
+		</if>
+		<if test="item.payPrice != null"> 
+			pay_price,
+		</if>
+		<if test="item.goodStatus != null"> 
+			good_status,
+		</if>
+		<if test="item.createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="item.goodId != null"> 
+		#{item.goodId},
+	</if>
+	<if test="item.goodName != null"> 
+		#{item.goodName},
+	</if>
+	<if test="item.goodNum != null"> 
+		#{item.goodNum},
+	</if>
+	<if test="item.goodPic != null"> 
+		#{item.goodPic},
+	</if>
+	<if test="item.goodInfo != null"> 
+		#{item.goodInfo},
+	</if>
+	<if test="item.goodPrice != null"> 
+		#{item.goodPrice},
+	</if>
+	<if test="item.payPrice != null"> 
+		#{item.payPrice},
+	</if>
+	<if test="item.goodStatus != null"> 
+		#{item.goodStatus},
+	</if>
+	<if test="item.createTime != null"> 
+		#{item.createTime},
+	</if>
+	</trim>
+	ON DUPLICATE KEY UPDATE
+	good_name = #{item.goodName},good_num = #{item.goodNum},good_pic = #{item.goodPic},good_info = #{item.goodInfo},good_price = #{item.goodPrice},pay_price = #{item.payPrice},good_status = #{item.goodStatus},create_time = #{item.createTime}
+	</foreach>
+</insert>
+<update id="updateByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	update t_shop_good
+	<set>
+	<if test="record.goodId != null"> 
+		good_id = #{record.goodId},
+	</if>
+	<if test="record.goodName != null"> 
+		good_name = #{record.goodName},
+	</if>
+	<if test="record.goodNum != null"> 
+		good_num = #{record.goodNum},
+	</if>
+	<if test="record.goodPic != null"> 
+		good_pic = #{record.goodPic},
+	</if>
+	<if test="record.goodInfo != null"> 
+		good_info = #{record.goodInfo},
+	</if>
+	<if test="record.goodPrice != null"> 
+		good_price = #{record.goodPrice},
+	</if>
+	<if test="record.payPrice != null"> 
+		pay_price = #{record.payPrice},
+	</if>
+	<if test="record.goodStatus != null"> 
+		good_status = #{record.goodStatus},
+	</if>
+	<if test="record.createTime != null"> 
+		create_time = #{record.createTime},
+	</if>
+	</set>
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</update>
+<update id="updateBatchByCriteria" parameterType="java.util.List">
+	<foreach collection="list" item="params" separator=";">
+		update t_shop_good
+		<set>
+		<if test="params.goodName != null"> 
+			good_name = #{params.goodName},
+		</if>
+		<if test="params.goodNum != null"> 
+			good_num = #{params.goodNum},
+		</if>
+		<if test="params.goodPic != null"> 
+			good_pic = #{params.goodPic},
+		</if>
+		<if test="params.goodInfo != null"> 
+			good_info = #{params.goodInfo},
+		</if>
+		<if test="params.goodPrice != null"> 
+			good_price = #{params.goodPrice},
+		</if>
+		<if test="params.payPrice != null"> 
+			pay_price = #{params.payPrice},
+		</if>
+		<if test="params.goodStatus != null"> 
+			good_status = #{params.goodStatus},
+		</if>
+		<if test="params.createTime != null"> 
+			create_time = #{params.createTime},
+		</if>
+		</set>
+		<if test="params != null">
+			<where>
+				<if test="params.goodId !=null">
+					and good_id=#{params.goodId }
+				</if>
+			</where>
+		</if>
+	</foreach>
+</update>
+<delete id="deleteByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	delete from t_shop_good
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</delete>
+<delete id="deleteById" parameterType="java.lang.String">
+	delete from t_shop_good
+	where good_id = #{goodId}
+</delete>
+<delete id="deleteBatchByIds">
+	delete from t_shop_good
+	where apply_id in
+	<foreach collection="array" item="id" open="(" close=")" separator=",">
+		#{id}
+	</foreach>
+</delete>
+</mapper>
