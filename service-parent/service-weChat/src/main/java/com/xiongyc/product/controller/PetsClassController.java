@@ -53,10 +53,15 @@ public class PetsClassController {
 	public JsonResult<List<PetsClass>> queryList(
 			@ApiParam(name = "pageNum", value = "页码") @RequestParam(name = "pageNum", required = false, defaultValue = "1") Integer pageNum,
 			@ApiParam(name = "pageSize", value = "页面大小") @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize,
-			@ApiParam(name = "id", value = "主键ID") @RequestParam(required = false) String id) {
+			@ApiParam(name = "id", value = "主键ID") @RequestParam(required = false) String id,
+			@ApiParam(name = "parentId", value = "父类ID") @RequestParam(required = false) String parentId
+			) {
 		Criteria<PetsClass> param = new Criteria<PetsClass>(pageNum, pageSize);
 		if (!StringUtils.isEmpty(id)) {
 			param.addParam("classId", id);
+		}
+		if (!StringUtils.isEmpty(parentId)) {
+			param.addParam("parentId", parentId);
 		}
 		param.setOrderBy("class_id desc");
 		return AppResponseCode.success(petsClassService.queryList(param));
