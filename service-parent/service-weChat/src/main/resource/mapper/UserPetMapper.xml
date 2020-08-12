@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiongyc.product.dao.IUserPetDao">
+<resultMap id="BaseResultMap"  type="com.xiongyc.product.bean.UserPet" >
+	<result column="pet_id" property="petId" jdbcType="VARCHAR" />
+	<result column="user_id" property="userId" jdbcType="VARCHAR" />
+	<result column="pet_type_id" property="petTypeId" jdbcType="VARCHAR" />
+	<result column="pet_name" property="petName" jdbcType="VARCHAR" />
+	<result column="pet_info" property="petInfo" jdbcType="VARCHAR" />
+	<result column="pet_birthday" property="petBirthday" jdbcType="DATE" />
+	<result column="sex" property="sex" jdbcType="INTEGER" />
+	<result column="varieties" property="varieties" jdbcType="VARCHAR" />
+	<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+</resultMap> 
+<sql id="Criteria_Where_Clause"> 
+	<where> 
+		<if test="params.petId!=null">
+			 and pet_id=#{params.petId}
+		</if>
+		<if test="params.userId!=null">
+			 and user_id=#{params.userId}
+		</if>
+		<if test="params.petTypeId!=null">
+			 and pet_type_id=#{params.petTypeId}
+		</if>
+		<if test="params.petName!=null">
+			 and pet_name=#{params.petName}
+		</if>
+		<if test="params.petInfo!=null">
+			 and pet_info=#{params.petInfo}
+		</if>
+		<if test="params.petBirthday!=null">
+			 and pet_birthday=#{params.petBirthday}
+		</if>
+		<if test="params.sex!=null">
+			 and sex=#{params.sex}
+		</if>
+		<if test="params.varieties!=null">
+			 and varieties=#{params.varieties}
+		</if>
+		<if test="params.mobile!=null">
+			 and mobile=#{params.mobile}
+		</if>
+		<if test="params.createTime!=null">
+			 and create_time=#{params.createTime}
+		</if>
+	</where> 
+</sql> 
+<sql id="Base_Column_List">
+  pet_id,user_id,pet_type_id,pet_name,pet_info,pet_birthday,sex,varieties,mobile,create_time
+</sql> 
+<select id="queryPage" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_user_pet
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryList" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_user_pet
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryPageCount" resultType="java.lang.Integer" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select count(1) from t_user_pet 
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+</select> 
+<select id="queryEntityById" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	<include refid="Base_Column_List" />
+	from t_user_pet	where pet_id = #{petId}
+</select>
+<insert id="insert" parameterType="com.xiongyc.product.bean.UserPet"> 
+	insert into t_user_pet
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="petId != null"> 
+			pet_id,
+		</if>
+		<if test="userId != null"> 
+			user_id,
+		</if>
+		<if test="petTypeId != null"> 
+			pet_type_id,
+		</if>
+		<if test="petName != null"> 
+			pet_name,
+		</if>
+		<if test="petInfo != null"> 
+			pet_info,
+		</if>
+		<if test="petBirthday != null"> 
+			pet_birthday,
+		</if>
+		<if test="sex != null"> 
+			sex,
+		</if>
+		<if test="varieties != null"> 
+			varieties,
+		</if>
+		<if test="mobile != null"> 
+			mobile,
+		</if>
+		<if test="createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="petId != null"> 
+		#{petId},
+	</if>
+	<if test="userId != null"> 
+		#{userId},
+	</if>
+	<if test="petTypeId != null"> 
+		#{petTypeId},
+	</if>
+	<if test="petName != null"> 
+		#{petName},
+	</if>
+	<if test="petInfo != null"> 
+		#{petInfo},
+	</if>
+	<if test="petBirthday != null"> 
+		#{petBirthday},
+	</if>
+	<if test="sex != null"> 
+		#{sex},
+	</if>
+	<if test="varieties != null"> 
+		#{varieties},
+	</if>
+	<if test="mobile != null"> 
+		#{mobile},
+	</if>
+	<if test="createTime != null"> 
+		#{createTime},
+	</if>
+	</trim>
+</insert>
+<insert id="insertBatch" parameterType="java.util.List"> 
+	insert into t_user_pet
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+			pet_id,user_id,pet_type_id,pet_name,pet_info,pet_birthday,sex,varieties,mobile,create_time
+	</trim>
+	values
+	<foreach collection="list" item="item" separator=",">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			#{item.petId},#{item.userId},#{item.petTypeId},#{item.petName},#{item.petInfo},#{item.petBirthday},#{item.sex},#{item.varieties},#{item.mobile},#{item.createTime}
+		</trim>
+	</foreach>
+</insert>
+<!--  批量保存 存在更新不存在插入(如果指定一个on duplicate key update子句，并且要插入的行将导致唯一索引或主键中的值重复，
+则会更新旧行, 对于innodb表，如果a是自动递增列，则效果不相同。对于自动递增列，insert语句会增加自动递增值，但update不会。 )
+详细文档 https://dev.mysql.com/doc/refman/5.5/en/insert-on-duplicate.html -->
+<insert id="insertOrUpdateBatch" parameterType="java.util.List"> 
+	<foreach collection="list" item="item" separator=";">
+	insert into t_user_pet
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="item.petId != null"> 
+			pet_id,
+		</if>
+		<if test="item.userId != null"> 
+			user_id,
+		</if>
+		<if test="item.petTypeId != null"> 
+			pet_type_id,
+		</if>
+		<if test="item.petName != null"> 
+			pet_name,
+		</if>
+		<if test="item.petInfo != null"> 
+			pet_info,
+		</if>
+		<if test="item.petBirthday != null"> 
+			pet_birthday,
+		</if>
+		<if test="item.sex != null"> 
+			sex,
+		</if>
+		<if test="item.varieties != null"> 
+			varieties,
+		</if>
+		<if test="item.mobile != null"> 
+			mobile,
+		</if>
+		<if test="item.createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="item.petId != null"> 
+		#{item.petId},
+	</if>
+	<if test="item.userId != null"> 
+		#{item.userId},
+	</if>
+	<if test="item.petTypeId != null"> 
+		#{item.petTypeId},
+	</if>
+	<if test="item.petName != null"> 
+		#{item.petName},
+	</if>
+	<if test="item.petInfo != null"> 
+		#{item.petInfo},
+	</if>
+	<if test="item.petBirthday != null"> 
+		#{item.petBirthday},
+	</if>
+	<if test="item.sex != null"> 
+		#{item.sex},
+	</if>
+	<if test="item.varieties != null"> 
+		#{item.varieties},
+	</if>
+	<if test="item.mobile != null"> 
+		#{item.mobile},
+	</if>
+	<if test="item.createTime != null"> 
+		#{item.createTime},
+	</if>
+	</trim>
+	ON DUPLICATE KEY UPDATE
+	user_id = #{item.userId},pet_type_id = #{item.petTypeId},pet_name = #{item.petName},pet_info = #{item.petInfo},pet_birthday = #{item.petBirthday},sex = #{item.sex},varieties = #{item.varieties},mobile = #{item.mobile},create_time = #{item.createTime}
+	</foreach>
+</insert>
+<update id="updateByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	update t_user_pet
+	<set>
+	<if test="record.petId != null"> 
+		pet_id = #{record.petId},
+	</if>
+	<if test="record.userId != null"> 
+		user_id = #{record.userId},
+	</if>
+	<if test="record.petTypeId != null"> 
+		pet_type_id = #{record.petTypeId},
+	</if>
+	<if test="record.petName != null"> 
+		pet_name = #{record.petName},
+	</if>
+	<if test="record.petInfo != null"> 
+		pet_info = #{record.petInfo},
+	</if>
+	<if test="record.petBirthday != null"> 
+		pet_birthday = #{record.petBirthday},
+	</if>
+	<if test="record.sex != null"> 
+		sex = #{record.sex},
+	</if>
+	<if test="record.varieties != null"> 
+		varieties = #{record.varieties},
+	</if>
+	<if test="record.mobile != null"> 
+		mobile = #{record.mobile},
+	</if>
+	<if test="record.createTime != null"> 
+		create_time = #{record.createTime},
+	</if>
+	</set>
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</update>
+<update id="updateBatchByCriteria" parameterType="java.util.List">
+	<foreach collection="list" item="params" separator=";">
+		update t_user_pet
+		<set>
+		<if test="params.userId != null"> 
+			user_id = #{params.userId},
+		</if>
+		<if test="params.petTypeId != null"> 
+			pet_type_id = #{params.petTypeId},
+		</if>
+		<if test="params.petName != null"> 
+			pet_name = #{params.petName},
+		</if>
+		<if test="params.petInfo != null"> 
+			pet_info = #{params.petInfo},
+		</if>
+		<if test="params.petBirthday != null"> 
+			pet_birthday = #{params.petBirthday},
+		</if>
+		<if test="params.sex != null"> 
+			sex = #{params.sex},
+		</if>
+		<if test="params.varieties != null"> 
+			varieties = #{params.varieties},
+		</if>
+		<if test="params.mobile != null"> 
+			mobile = #{params.mobile},
+		</if>
+		<if test="params.createTime != null"> 
+			create_time = #{params.createTime},
+		</if>
+		</set>
+		<if test="params != null">
+			<where>
+				<if test="params.petId !=null">
+					and pet_id=#{params.petId }
+				</if>
+			</where>
+		</if>
+	</foreach>
+</update>
+<delete id="deleteByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	delete from t_user_pet
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</delete>
+<delete id="deleteById" parameterType="java.lang.String">
+	delete from t_user_pet
+	where pet_id = #{petId}
+</delete>
+<delete id="deleteBatchByIds">
+	delete from t_user_pet
+	where apply_id in
+	<foreach collection="array" item="id" open="(" close=")" separator=",">
+		#{id}
+	</foreach>
+</delete>
+</mapper>
