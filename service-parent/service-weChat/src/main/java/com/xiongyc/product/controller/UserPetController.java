@@ -1,6 +1,7 @@
 package com.xiongyc.product.controller;
 
 
+import java.util.Date;
 import java.util.List;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageInfo;
@@ -68,6 +69,7 @@ private SequenceService sequenceService;
         ret = userPetService.updateByCriteria(param); 
      }else {
         userPet.setPetId(sequenceService.getUpdateQuerySeq("TUP", "t_user_pet"));
+        userPet.setCreateTime(new Date());
         ret =userPetService.insert(userPet); 
      } 
      return ret == null ? AppResponseCode.success() : AppResponseCode.failure(); 
