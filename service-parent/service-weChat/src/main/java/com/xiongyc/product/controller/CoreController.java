@@ -66,6 +66,7 @@ public class CoreController {
 		
 		Object accessToken = redisUtil.get(WeChatConstant.ACCESSTOKEN);
 		if(accessToken == null) {
+			log.info("======> http 请求开始 获取 WeChatConstant.ACCESSTOKEN");
 			String url = MessageFormat.format("https://api.weixin.qq.com/cgi-bin/token?grant_type={0}&appid={1}&secret={2}", grantType,appId,appSecret);
 			ResponseEntity<WxResult> forEntity = restTemplate.getForEntity(url, WxResult.class);
 			
@@ -102,7 +103,8 @@ public class CoreController {
 			log.error(" weChat 请求错误 ：" + forEntity.getBody().getErrcode() + "  " + forEntity.getBody().getErrmsg());
 			return null;
 		}
-		url = MessageFormat.format("https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid=OPENID&lang=zh_CN", forEntity.getBody().getAccess_token(),forEntity.getBody().getOpenid());
+		//                          https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
+		url = MessageFormat.format("https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang=zh_CN", forEntity.getBody().getAccess_token(),forEntity.getBody().getOpenid());
 		ResponseEntity<WxResult> entity = restTemplate.getForEntity(url, WxResult.class);
 		if(entity.getStatusCodeValue() != HttpStatus.SC_OK) {
 			log.error(" http 请求错误 ：" + entity.getStatusCode());

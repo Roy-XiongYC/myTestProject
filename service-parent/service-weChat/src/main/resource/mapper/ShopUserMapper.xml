@@ -9,7 +9,7 @@
 	<result column="pwd" property="pwd" jdbcType="VARCHAR" />
 	<result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
 	<result column="mobile" property="mobile" jdbcType="VARCHAR" />
-	<result column="sex" property="sex" jdbcType="INTEGER" />
+	<result column="sex" property="sex" jdbcType="VARCHAR" />
 	<result column="country" property="country" jdbcType="VARCHAR" />
 	<result column="province" property="province" jdbcType="VARCHAR" />
 	<result column="city" property="city" jdbcType="VARCHAR" />
@@ -91,6 +91,13 @@
 	<include refid="Base_Column_List" />
 	from t_shop_user	where user_id = #{userId}
 </select>
+
+<select id="queryEntityByUnionId" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	<include refid="Base_Column_List" />
+	from t_shop_user	where union_id = #{unionId}
+</select>
+
 <insert id="insert" parameterType="com.xiongyc.product.bean.ShopUser"> 
 	insert into t_shop_user
 	<trim prefix="(" suffix=")" suffixOverrides=",">

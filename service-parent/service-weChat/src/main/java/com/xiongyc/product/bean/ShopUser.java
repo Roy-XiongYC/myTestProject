@@ -62,7 +62,7 @@ public class ShopUser implements IModel {
 	 * 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
 	 */
 	@ApiModelProperty(value = "用户的性别，值为1时是男性，值为2时是女性，值为0时是未知")
-	private Long sex;
+	private String sex;
 
 	/**
 	 * 国家，如中国为CN
@@ -181,14 +181,14 @@ public class ShopUser implements IModel {
 	/**
 	 * 获取 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
 	 */
-	public Long getSex() {
+	public String getSex() {
 		return sex;
 	}
 
 	/**
 	 * 设置 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
 	 */
-	public void setSex(Long sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
 
