@@ -1,6 +1,7 @@
 package com.xiongyc.product.controller;
 
 
+import java.util.Date;
 import java.util.List;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageInfo;
@@ -68,6 +69,7 @@ private SequenceService sequenceService;
         ret = shopOrderService.updateByCriteria(param); 
      }else {
         shopOrder.setOrderId(sequenceService.getUpdateQuerySeq("TSO", "t_shop_order"));
+        shopOrder.setCreateTime(new Date());
         ret =shopOrderService.insert(shopOrder); 
      } 
      return ret == null ? AppResponseCode.success() : AppResponseCode.failure(); 
