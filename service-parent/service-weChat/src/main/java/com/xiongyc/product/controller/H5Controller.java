@@ -31,17 +31,15 @@ public class H5Controller {
 
 	@Autowired
 	private IShopUserService shopUserService;
-	
+
 	@RequestMapping("/redirect")
-	public String redirectUrl(@RequestParam(name = "code") String code, @RequestParam(name = "state") String state,
-			Model model) {
+	public String redirectUrl(@RequestParam(name = "code") String code, @RequestParam(name = "state") String state) {
 		System.out.println(code);
 		System.out.println(state);
 		WxResult accessToken = WxCore.getAccessToken(code);
 		System.out.println("==========:" + accessToken.toString());
-		ShopUser user= shopUserService.saveUser(accessToken);
-		model.addAttribute("userInfo",user);
-		return "redirect:http://www.dikachongwu.com/h5/";
+		ShopUser user = shopUserService.saveUser(accessToken);
+		return "redirect:http://www.dikachongwu.com/h5/?userId=" + user.getUserId();
 	}
 
 	@ApiOperation(value = "翻页查询列表")
