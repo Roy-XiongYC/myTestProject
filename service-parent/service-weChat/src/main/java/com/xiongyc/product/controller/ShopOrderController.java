@@ -70,6 +70,7 @@ private SequenceService sequenceService;
      }else {
         shopOrder.setOrderId(sequenceService.getUpdateQuerySeq("TSO", "t_shop_order"));
         shopOrder.setCreateTime(new Date());
+        shopOrder.setOrderStatus("60");
         ret =shopOrderService.insert(shopOrder); 
      } 
      return ret == null ? AppResponseCode.success() : AppResponseCode.failure(); 
