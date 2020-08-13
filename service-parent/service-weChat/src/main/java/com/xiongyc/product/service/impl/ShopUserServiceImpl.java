@@ -113,7 +113,7 @@ public class ShopUserServiceImpl implements IShopUserService {
 
 	@Override
 	public ShopUser saveUser(WxResult accessToken) {
-		ShopUser user = shopUserDao.queryEntityByUnionId(accessToken.getUnionid());
+		ShopUser user = shopUserDao.queryEntityByUnionId(accessToken.getOpenid());
 		if(user == null) {
 			user = new ShopUser();
 			user.setUserId(sequenceService.getUpdateQuerySeq("TSU", "t_shop_user"));
