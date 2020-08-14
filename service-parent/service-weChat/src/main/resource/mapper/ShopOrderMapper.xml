@@ -11,7 +11,7 @@
 	<result column="pay_price" property="payPrice" jdbcType="DECIMAL" />
 	<result column="order_price" property="orderPrice" jdbcType="DECIMAL" />
 	<result column="remark" property="remark" jdbcType="VARCHAR" />
-	<result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+	<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
 	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 </resultMap> 
 <sql id="Criteria_Where_Clause"> 
