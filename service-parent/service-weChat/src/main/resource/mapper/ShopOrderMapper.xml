@@ -3,7 +3,7 @@
 <mapper namespace="com.xiongyc.product.dao.IShopOrderDao">
 <resultMap id="BaseResultMap"  type="com.xiongyc.product.bean.ShopOrder" >
 	<result column="order_id" property="orderId" jdbcType="VARCHAR" />
-	<result column="order_type" property="orderType" jdbcType="INTEGER" />
+	<result column="order_type" property="orderType" jdbcType="VARCHAR" />
 	<result column="user_id" property="userId" jdbcType="VARCHAR" />
 	<result column="user_name" property="userName" jdbcType="VARCHAR" />
 	<result column="mobile" property="mobile" jdbcType="VARCHAR" />
