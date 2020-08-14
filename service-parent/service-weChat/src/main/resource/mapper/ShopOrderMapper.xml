@@ -12,6 +12,7 @@
 	<result column="order_price" property="orderPrice" jdbcType="DECIMAL" />
 	<result column="remark" property="remark" jdbcType="VARCHAR" />
 	<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+	<result column="address_info" property="addressInfo" jdbcType="VARCHAR" />
 	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 </resultMap> 
 <sql id="Criteria_Where_Clause"> 
@@ -46,13 +47,16 @@
 		<if test="params.orderStatus!=null">
 			 and order_status=#{params.orderStatus}
 		</if>
+		<if test="params.addressInfo!=null">
+			 and address_info=#{params.addressInfo}
+		</if>
 		<if test="params.createTime!=null">
 			 and create_time=#{params.createTime}
 		</if>
 	</where> 
 </sql> 
 <sql id="Base_Column_List">
-  order_id,order_type,user_id,user_name,mobile,goods_info,pay_price,order_price,remark,order_status,create_time
+  order_id,order_type,user_id,user_name,mobile,goods_info,pay_price,order_price,remark,order_status,address_info,create_time
 </sql> 
 <select id="queryPage" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
 	select 
@@ -120,6 +124,9 @@
 		<if test="orderStatus != null"> 
 			order_status,
 		</if>
+		<if test="addressInfo != null"> 
+			address_info,
+		</if>
 		<if test="createTime != null"> 
 			create_time,
 		</if>
@@ -156,6 +163,9 @@
 	<if test="orderStatus != null"> 
 		#{orderStatus},
 	</if>
+	<if test="addressInfo != null"> 
+		#{addressInfo},
+	</if>
 	<if test="createTime != null"> 
 		#{createTime},
 	</if>
@@ -164,12 +174,12 @@
 <insert id="insertBatch" parameterType="java.util.List"> 
 	insert into t_shop_order
 	<trim prefix="(" suffix=")" suffixOverrides=",">
-			order_id,order_type,user_id,user_name,mobile,goods_info,pay_price,order_price,remark,order_status,create_time
+			order_id,order_type,user_id,user_name,mobile,goods_info,pay_price,order_price,remark,order_status,address_info,create_time
 	</trim>
 	values
 	<foreach collection="list" item="item" separator=",">
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			#{item.orderId},#{item.orderType},#{item.userId},#{item.userName},#{item.mobile},#{item.goodsInfo},#{item.payPrice},#{item.orderPrice},#{item.remark},#{item.orderStatus},#{item.createTime}
+			#{item.orderId},#{item.orderType},#{item.userId},#{item.userName},#{item.mobile},#{item.goodsInfo},#{item.payPrice},#{item.orderPrice},#{item.remark},#{item.orderStatus},#{item.addressInfo},#{item.createTime}
 		</trim>
 	</foreach>
 </insert>
@@ -210,6 +220,9 @@
 		<if test="item.orderStatus != null"> 
 			order_status,
 		</if>
+		<if test="item.addressInfo != null"> 
+			address_info,
+		</if>
 		<if test="item.createTime != null"> 
 			create_time,
 		</if>
@@ -246,12 +259,15 @@
 	<if test="item.orderStatus != null"> 
 		#{item.orderStatus},
 	</if>
+	<if test="item.addressInfo != null"> 
+		#{item.addressInfo},
+	</if>
 	<if test="item.createTime != null"> 
 		#{item.createTime},
 	</if>
 	</trim>
 	ON DUPLICATE KEY UPDATE
-	order_type = #{item.orderType},user_id = #{item.userId},user_name = #{item.userName},mobile = #{item.mobile},goods_info = #{item.goodsInfo},pay_price = #{item.payPrice},order_price = #{item.orderPrice},remark = #{item.remark},order_status = #{item.orderStatus},create_time = #{item.createTime}
+	order_type = #{item.orderType},user_id = #{item.userId},user_name = #{item.userName},mobile = #{item.mobile},goods_info = #{item.goodsInfo},pay_price = #{item.payPrice},order_price = #{item.orderPrice},remark = #{item.remark},order_status = #{item.orderStatus},address_info = #{item.addressInfo},create_time = #{item.createTime}
 	</foreach>
 </insert>
 <update id="updateByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
@@ -286,6 +302,9 @@
 	</if>
 	<if test="record.orderStatus != null"> 
 		order_status = #{record.orderStatus},
+	</if>
+	<if test="record.addressInfo != null"> 
+		address_info = #{record.addressInfo},
 	</if>
 	<if test="record.createTime != null"> 
 		create_time = #{record.createTime},
@@ -325,6 +344,9 @@
 		</if>
 		<if test="params.orderStatus != null"> 
 			order_status = #{params.orderStatus},
+		</if>
+		<if test="params.addressInfo != null"> 
+			address_info = #{params.addressInfo},
 		</if>
 		<if test="params.createTime != null"> 
 			create_time = #{params.createTime},

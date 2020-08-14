@@ -11,6 +11,7 @@
 	<result column="sex" property="sex" jdbcType="INTEGER" />
 	<result column="varieties" property="varieties" jdbcType="VARCHAR" />
 	<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+	<result column="sterilization" property="sterilization" jdbcType="INTEGER" />
 	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 </resultMap> 
 <sql id="Criteria_Where_Clause"> 
@@ -42,13 +43,16 @@
 		<if test="params.mobile!=null">
 			 and mobile=#{params.mobile}
 		</if>
+		<if test="params.sterilization!=null">
+			 and sterilization=#{params.sterilization}
+		</if>
 		<if test="params.createTime!=null">
 			 and create_time=#{params.createTime}
 		</if>
 	</where> 
 </sql> 
 <sql id="Base_Column_List">
-  pet_id,user_id,pet_type_id,pet_name,pet_info,pet_birthday,sex,varieties,mobile,create_time
+  pet_id,user_id,pet_type_id,pet_name,pet_info,pet_birthday,sex,varieties,mobile,sterilization,create_time
 </sql> 
 <select id="queryPage" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
 	select 
@@ -61,6 +65,19 @@
 		order by ${orderBy} 
 	</if> 
 </select> 
+
+<select id="queryList" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_user_pet
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+
 <select id="queryList" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
 	select 
 	<include refid="Base_Column_List" />
@@ -113,6 +130,9 @@
 		<if test="mobile != null"> 
 			mobile,
 		</if>
+		<if test="sterilization != null"> 
+			sterilization,
+		</if>
 		<if test="createTime != null"> 
 			create_time,
 		</if>
@@ -146,6 +166,9 @@
 	<if test="mobile != null"> 
 		#{mobile},
 	</if>
+	<if test="sterilization != null"> 
+		#{sterilization},
+	</if>
 	<if test="createTime != null"> 
 		#{createTime},
 	</if>
@@ -154,12 +177,12 @@
 <insert id="insertBatch" parameterType="java.util.List"> 
 	insert into t_user_pet
 	<trim prefix="(" suffix=")" suffixOverrides=",">
-			pet_id,user_id,pet_type_id,pet_name,pet_info,pet_birthday,sex,varieties,mobile,create_time
+			pet_id,user_id,pet_type_id,pet_name,pet_info,pet_birthday,sex,varieties,mobile,sterilization,create_time
 	</trim>
 	values
 	<foreach collection="list" item="item" separator=",">
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			#{item.petId},#{item.userId},#{item.petTypeId},#{item.petName},#{item.petInfo},#{item.petBirthday},#{item.sex},#{item.varieties},#{item.mobile},#{item.createTime}
+			#{item.petId},#{item.userId},#{item.petTypeId},#{item.petName},#{item.petInfo},#{item.petBirthday},#{item.sex},#{item.varieties},#{item.mobile},#{item.sterilization},#{item.createTime}
 		</trim>
 	</foreach>
 </insert>
@@ -197,6 +220,9 @@
 		<if test="item.mobile != null"> 
 			mobile,
 		</if>
+		<if test="item.sterilization != null"> 
+			sterilization,
+		</if>
 		<if test="item.createTime != null"> 
 			create_time,
 		</if>
@@ -230,12 +256,15 @@
 	<if test="item.mobile != null"> 
 		#{item.mobile},
 	</if>
+	<if test="item.sterilization != null"> 
+		#{item.sterilization},
+	</if>
 	<if test="item.createTime != null"> 
 		#{item.createTime},
 	</if>
 	</trim>
 	ON DUPLICATE KEY UPDATE
-	user_id = #{item.userId},pet_type_id = #{item.petTypeId},pet_name = #{item.petName},pet_info = #{item.petInfo},pet_birthday = #{item.petBirthday},sex = #{item.sex},varieties = #{item.varieties},mobile = #{item.mobile},create_time = #{item.createTime}
+	user_id = #{item.userId},pet_type_id = #{item.petTypeId},pet_name = #{item.petName},pet_info = #{item.petInfo},pet_birthday = #{item.petBirthday},sex = #{item.sex},varieties = #{item.varieties},mobile = #{item.mobile},sterilization = #{item.sterilization},create_time = #{item.createTime}
 	</foreach>
 </insert>
 <update id="updateByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
@@ -267,6 +296,9 @@
 	</if>
 	<if test="record.mobile != null"> 
 		mobile = #{record.mobile},
+	</if>
+	<if test="record.sterilization != null"> 
+		sterilization = #{record.sterilization},
 	</if>
 	<if test="record.createTime != null"> 
 		create_time = #{record.createTime},
@@ -303,6 +335,9 @@
 		</if>
 		<if test="params.mobile != null"> 
 			mobile = #{params.mobile},
+		</if>
+		<if test="params.sterilization != null"> 
+			sterilization = #{params.sterilization},
 		</if>
 		<if test="params.createTime != null"> 
 			create_time = #{params.createTime},
