@@ -50,7 +50,7 @@ public class UserPet implements IModel {
 	 * 生日
 	 */
 	@ApiModelProperty(value = "生日")
-	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
 	private Date petBirthday;
 
 	/**
@@ -70,6 +70,12 @@ public class UserPet implements IModel {
 	 */
 	@ApiModelProperty(value = "联系电话")
 	private String mobile;
+
+	/**
+	 * 绝育 1 是 0 否
+	 */
+	@ApiModelProperty(value = "绝育 1 是 0 否")
+	private Boolean sterilization;
 
 	/**
 	 * 创建时间
@@ -196,6 +202,20 @@ public class UserPet implements IModel {
 	 */
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	/**
+	 * 获取 绝育 1 是 0 否
+	 */
+	public Boolean getSterilization() {
+		return sterilization;
+	}
+
+	/**
+	 * 设置 绝育 1 是 0 否
+	 */
+	public void setSterilization(Boolean sterilization) {
+		this.sterilization = sterilization;
 	}
 
 	/**
