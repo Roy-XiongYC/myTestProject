@@ -57,7 +57,7 @@ public class UserPet implements IModel {
 	 * 0母1公
 	 */
 	@ApiModelProperty(value = "0母1公")
-	private Boolean sex;
+	private String sex;
 
 	/**
 	 * 品种
@@ -165,14 +165,14 @@ public class UserPet implements IModel {
 	/**
 	 * 获取 0母1公
 	 */
-	public Boolean getSex() {
+	public String getSex() {
 		return sex;
 	}
 
 	/**
 	 * 设置 0母1公
 	 */
-	public void setSex(Boolean sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
 

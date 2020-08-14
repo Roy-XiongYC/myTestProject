@@ -8,7 +8,7 @@
 	<result column="pet_name" property="petName" jdbcType="VARCHAR" />
 	<result column="pet_info" property="petInfo" jdbcType="VARCHAR" />
 	<result column="pet_birthday" property="petBirthday" jdbcType="DATE" />
-	<result column="sex" property="sex" jdbcType="INTEGER" />
+	<result column="sex" property="sex" jdbcType="VARCHAR" />
 	<result column="varieties" property="varieties" jdbcType="VARCHAR" />
 	<result column="mobile" property="mobile" jdbcType="VARCHAR" />
 	<result column="sterilization" property="sterilization" jdbcType="INTEGER" />
@@ -65,19 +65,6 @@
 		order by ${orderBy} 
 	</if> 
 </select> 
-
-<select id="queryList" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
-	select 
-	<include refid="Base_Column_List" />
-	from t_user_pet
-	<if test="params != null"> 
-		<include refid="Criteria_Where_Clause" /> 
-	</if> 
-	<if test="orderBy!=null"> 
-		order by ${orderBy} 
-	</if> 
-</select> 
-
 <select id="queryList" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
 	select 
 	<include refid="Base_Column_List" />
