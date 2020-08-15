@@ -108,9 +108,8 @@ public class VarietiesController {
 	}
 
 	@ApiOperation(value = "详情")
-	@GetMapping("/queryEntityById")
-	public JsonResult<Varieties> queryEntityById(
-			@ApiParam(name = "id", value = "主键ID") @RequestParam(required = false) String id) {
+	@GetMapping("/queryEntityById/{id}")
+	public JsonResult<Varieties> queryEntityById(@ApiParam(name = "id", value = "主键ID") @PathVariable(name = "id") String id) {
 		return AppResponseCode.success(varietiesService.queryEntityById(id));
 	}
 
