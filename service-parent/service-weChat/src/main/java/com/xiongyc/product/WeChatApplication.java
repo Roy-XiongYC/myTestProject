@@ -8,11 +8,15 @@ import org.springframework.context.annotation.FilterType;
 
 import com.xiongyc.product.config.ExcludeFromComponentScan;
 
-@ComponentScan(basePackages = { "com.xiongyc" }, excludeFilters = {
+import net.hasor.spring.boot.EnableHasor;
+import net.hasor.spring.boot.EnableHasorWeb;
+
+@EnableHasor
+@EnableHasorWeb
+@ComponentScan(basePackages = { "com.xiongyc","net.example.hasor" }, excludeFilters = {
 		@ComponentScan.Filter(type = FilterType.ANNOTATION, value = ExcludeFromComponentScan.class) })
 @MapperScan("com.xiongyc.product.dao")
 @SpringBootApplication
-//@EnableEurekaClient
 public class WeChatApplication {
 
 	public static void main(String[] args) {
