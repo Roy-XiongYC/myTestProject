@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiongyc.product.dao.IVarietiesDao">
+<resultMap id="BaseResultMap"  type="com.xiongyc.product.bean.Varieties" >
+	<result column="varieties_id" property="varietiesId" jdbcType="VARCHAR" />
+	<result column="varieties_name" property="varietiesName" jdbcType="VARCHAR" />
+	<result column="class_id" property="classId" jdbcType="VARCHAR" />
+	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+</resultMap> 
+<sql id="Criteria_Where_Clause"> 
+	<where> 
+		<if test="params.varietiesId!=null">
+			 and varieties_id=#{params.varietiesId}
+		</if>
+		<if test="params.varietiesName!=null">
+			 and varieties_name=#{params.varietiesName}
+		</if>
+		<if test="params.classId!=null">
+			 and class_id=#{params.classId}
+		</if>
+		<if test="params.createTime!=null">
+			 and create_time=#{params.createTime}
+		</if>
+	</where> 
+</sql> 
+<sql id="Base_Column_List">
+  varieties_id,varieties_name,class_id,create_time
+</sql> 
+<select id="queryPage" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_varieties
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryList" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_varieties
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryPageCount" resultType="java.lang.Integer" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select count(1) from t_varieties 
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+</select> 
+<select id="queryEntityById" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	<include refid="Base_Column_List" />
+	from t_varieties	where varieties_id = #{varietiesId}
+</select>
+<insert id="insert" parameterType="com.xiongyc.product.bean.Varieties"> 
+	insert into t_varieties
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="varietiesId != null"> 
+			varieties_id,
+		</if>
+		<if test="varietiesName != null"> 
+			varieties_name,
+		</if>
+		<if test="classId != null"> 
+			class_id,
+		</if>
+		<if test="createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="varietiesId != null"> 
+		#{varietiesId},
+	</if>
+	<if test="varietiesName != null"> 
+		#{varietiesName},
+	</if>
+	<if test="classId != null"> 
+		#{classId},
+	</if>
+	<if test="createTime != null"> 
+		#{createTime},
+	</if>
+	</trim>
+</insert>
+<insert id="insertBatch" parameterType="java.util.List"> 
+	insert into t_varieties
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+			varieties_id,varieties_name,class_id,create_time
+	</trim>
+	values
+	<foreach collection="list" item="item" separator=",">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			#{item.varietiesId},#{item.varietiesName},#{item.classId},#{item.createTime}
+		</trim>
+	</foreach>
+</insert>
+<!--  批量保存 存在更新不存在插入(如果指定一个on duplicate key update子句，并且要插入的行将导致唯一索引或主键中的值重复，
+则会更新旧行, 对于innodb表，如果a是自动递增列，则效果不相同。对于自动递增列，insert语句会增加自动递增值，但update不会。 )
+详细文档 https://dev.mysql.com/doc/refman/5.5/en/insert-on-duplicate.html -->
+<insert id="insertOrUpdateBatch" parameterType="java.util.List"> 
+	<foreach collection="list" item="item" separator=";">
+	insert into t_varieties
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="item.varietiesId != null"> 
+			varieties_id,
+		</if>
+		<if test="item.varietiesName != null"> 
+			varieties_name,
+		</if>
+		<if test="item.classId != null"> 
+			class_id,
+		</if>
+		<if test="item.createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="item.varietiesId != null"> 
+		#{item.varietiesId},
+	</if>
+	<if test="item.varietiesName != null"> 
+		#{item.varietiesName},
+	</if>
+	<if test="item.classId != null"> 
+		#{item.classId},
+	</if>
+	<if test="item.createTime != null"> 
+		#{item.createTime},
+	</if>
+	</trim>
+	ON DUPLICATE KEY UPDATE
+	varieties_name = #{item.varietiesName},class_id = #{item.classId},create_time = #{item.createTime}
+	</foreach>
+</insert>
+<update id="updateByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	update t_varieties
+	<set>
+	<if test="record.varietiesId != null"> 
+		varieties_id = #{record.varietiesId},
+	</if>
+	<if test="record.varietiesName != null"> 
+		varieties_name = #{record.varietiesName},
+	</if>
+	<if test="record.classId != null"> 
+		class_id = #{record.classId},
+	</if>
+	<if test="record.createTime != null"> 
+		create_time = #{record.createTime},
+	</if>
+	</set>
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</update>
+<update id="updateBatchByCriteria" parameterType="java.util.List">
+	<foreach collection="list" item="params" separator=";">
+		update t_varieties
+		<set>
+		<if test="params.varietiesName != null"> 
+			varieties_name = #{params.varietiesName},
+		</if>
+		<if test="params.classId != null"> 
+			class_id = #{params.classId},
+		</if>
+		<if test="params.createTime != null"> 
+			create_time = #{params.createTime},
+		</if>
+		</set>
+		<if test="params != null">
+			<where>
+				<if test="params.varietiesId !=null">
+					and varieties_id=#{params.varietiesId }
+				</if>
+			</where>
+		</if>
+	</foreach>
+</update>
+<delete id="deleteByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	delete from t_varieties
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</delete>
+<delete id="deleteById" parameterType="java.lang.String">
+	delete from t_varieties
+	where varieties_id = #{varietiesId}
+</delete>
+<delete id="deleteBatchByIds">
+	delete from t_varieties
+	where apply_id in
+	<foreach collection="array" item="id" open="(" close=")" separator=",">
+		#{id}
+	</foreach>
+</delete>
+</mapper>

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiongyc.product.dao.IServiceProjectDao">
+<resultMap id="BaseResultMap"  type="com.xiongyc.product.bean.ServiceProject" >
+	<result column="service_id" property="serviceId" jdbcType="VARCHAR" />
+	<result column="del_status" property="delStatus" jdbcType="INTEGER" />
+	<result column="type" property="type" jdbcType="VARCHAR" />
+	<result column="project_name" property="projectName" jdbcType="VARCHAR" />
+	<result column="price" property="price" jdbcType="DECIMAL" />
+	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+</resultMap> 
+<sql id="Criteria_Where_Clause"> 
+	<where> 
+		<if test="params.serviceId!=null">
+			 and service_id=#{params.serviceId}
+		</if>
+		<if test="params.delStatus!=null">
+			 and del_status=#{params.delStatus}
+		</if>
+		<if test="params.type!=null">
+			 and type=#{params.type}
+		</if>
+		<if test="params.projectName!=null">
+			 and project_name=#{params.projectName}
+		</if>
+		<if test="params.price!=null">
+			 and price=#{params.price}
+		</if>
+		<if test="params.createTime!=null">
+			 and create_time=#{params.createTime}
+		</if>
+	</where> 
+</sql> 
+<sql id="Base_Column_List">
+  service_id,del_status,type,project_name,price,create_time
+</sql> 
+<select id="queryPage" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_service_project
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryList" resultMap="BaseResultMap" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select 
+	<include refid="Base_Column_List" />
+	from t_service_project
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+	<if test="orderBy!=null"> 
+		order by ${orderBy} 
+	</if> 
+</select> 
+<select id="queryPageCount" resultType="java.lang.Integer" parameterType="com.xiongyc.utils.mybatis.Criteria"> 
+	select count(1) from t_service_project 
+	<if test="params != null"> 
+		<include refid="Criteria_Where_Clause" /> 
+	</if> 
+</select> 
+<select id="queryEntityById" resultMap="BaseResultMap" parameterType="java.lang.String">
+	select 
+	<include refid="Base_Column_List" />
+	from t_service_project	where service_id = #{serviceId}
+</select>
+<insert id="insert" parameterType="com.xiongyc.product.bean.ServiceProject"> 
+	insert into t_service_project
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="serviceId != null"> 
+			service_id,
+		</if>
+		<if test="delStatus != null"> 
+			del_status,
+		</if>
+		<if test="type != null"> 
+			type,
+		</if>
+		<if test="projectName != null"> 
+			project_name,
+		</if>
+		<if test="price != null"> 
+			price,
+		</if>
+		<if test="createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="serviceId != null"> 
+		#{serviceId},
+	</if>
+	<if test="delStatus != null"> 
+		#{delStatus},
+	</if>
+	<if test="type != null"> 
+		#{type},
+	</if>
+	<if test="projectName != null"> 
+		#{projectName},
+	</if>
+	<if test="price != null"> 
+		#{price},
+	</if>
+	<if test="createTime != null"> 
+		#{createTime},
+	</if>
+	</trim>
+</insert>
+<insert id="insertBatch" parameterType="java.util.List"> 
+	insert into t_service_project
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+			service_id,del_status,type,project_name,price,create_time
+	</trim>
+	values
+	<foreach collection="list" item="item" separator=",">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			#{item.serviceId},#{item.delStatus},#{item.type},#{item.projectName},#{item.price},#{item.createTime}
+		</trim>
+	</foreach>
+</insert>
+<!--  批量保存 存在更新不存在插入(如果指定一个on duplicate key update子句，并且要插入的行将导致唯一索引或主键中的值重复，
+则会更新旧行, 对于innodb表，如果a是自动递增列，则效果不相同。对于自动递增列，insert语句会增加自动递增值，但update不会。 )
+详细文档 https://dev.mysql.com/doc/refman/5.5/en/insert-on-duplicate.html -->
+<insert id="insertOrUpdateBatch" parameterType="java.util.List"> 
+	<foreach collection="list" item="item" separator=";">
+	insert into t_service_project
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="item.serviceId != null"> 
+			service_id,
+		</if>
+		<if test="item.delStatus != null"> 
+			del_status,
+		</if>
+		<if test="item.type != null"> 
+			type,
+		</if>
+		<if test="item.projectName != null"> 
+			project_name,
+		</if>
+		<if test="item.price != null"> 
+			price,
+		</if>
+		<if test="item.createTime != null"> 
+			create_time,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="item.serviceId != null"> 
+		#{item.serviceId},
+	</if>
+	<if test="item.delStatus != null"> 
+		#{item.delStatus},
+	</if>
+	<if test="item.type != null"> 
+		#{item.type},
+	</if>
+	<if test="item.projectName != null"> 
+		#{item.projectName},
+	</if>
+	<if test="item.price != null"> 
+		#{item.price},
+	</if>
+	<if test="item.createTime != null"> 
+		#{item.createTime},
+	</if>
+	</trim>
+	ON DUPLICATE KEY UPDATE
+	del_status = #{item.delStatus},type = #{item.type},project_name = #{item.projectName},price = #{item.price},create_time = #{item.createTime}
+	</foreach>
+</insert>
+<update id="updateByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	update t_service_project
+	<set>
+	<if test="record.serviceId != null"> 
+		service_id = #{record.serviceId},
+	</if>
+	<if test="record.delStatus != null"> 
+		del_status = #{record.delStatus},
+	</if>
+	<if test="record.type != null"> 
+		type = #{record.type},
+	</if>
+	<if test="record.projectName != null"> 
+		project_name = #{record.projectName},
+	</if>
+	<if test="record.price != null"> 
+		price = #{record.price},
+	</if>
+	<if test="record.createTime != null"> 
+		create_time = #{record.createTime},
+	</if>
+	</set>
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</update>
+<update id="updateBatchByCriteria" parameterType="java.util.List">
+	<foreach collection="list" item="params" separator=";">
+		update t_service_project
+		<set>
+		<if test="params.delStatus != null"> 
+			del_status = #{params.delStatus},
+		</if>
+		<if test="params.type != null"> 
+			type = #{params.type},
+		</if>
+		<if test="params.projectName != null"> 
+			project_name = #{params.projectName},
+		</if>
+		<if test="params.price != null"> 
+			price = #{params.price},
+		</if>
+		<if test="params.createTime != null"> 
+			create_time = #{params.createTime},
+		</if>
+		</set>
+		<if test="params != null">
+			<where>
+				<if test="params.serviceId !=null">
+					and service_id=#{params.serviceId }
+				</if>
+			</where>
+		</if>
+	</foreach>
+</update>
+<delete id="deleteByCriteria" parameterType="com.xiongyc.utils.mybatis.Criteria">
+	delete from t_service_project
+	<if test="params != null">
+		<include refid="Criteria_Where_Clause" />
+	</if>
+</delete>
+<delete id="deleteById" parameterType="java.lang.String">
+	delete from t_service_project
+	where service_id = #{serviceId}
+</delete>
+<delete id="deleteBatchByIds">
+	delete from t_service_project
+	where apply_id in
+	<foreach collection="array" item="id" open="(" close=")" separator=",">
+		#{id}
+	</foreach>
+</delete>
+</mapper>
