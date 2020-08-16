@@ -3,7 +3,7 @@
 <mapper namespace="com.xiongyc.product.dao.IServiceProjectDao">
 <resultMap id="BaseResultMap"  type="com.xiongyc.product.bean.ServiceProject" >
 	<result column="service_id" property="serviceId" jdbcType="VARCHAR" />
-	<result column="del_status" property="delStatus" jdbcType="INTEGER" />
+	<result column="del_status" property="delStatus" jdbcType="VARCHAR" />
 	<result column="type" property="type" jdbcType="VARCHAR" />
 	<result column="project_name" property="projectName" jdbcType="VARCHAR" />
 	<result column="price" property="price" jdbcType="DECIMAL" />

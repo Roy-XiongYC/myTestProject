@@ -69,7 +69,7 @@ public class ServiceProjectController {
 	@ApiOperation(value = "更新状态")
 	@GetMapping("/updateStatus/{id}/{status}")
 	public JsonResult<Object> updateStatus(@ApiParam(name = "id", value = "主键ID") @PathVariable(name = "id") String id,
-			@ApiParam(name = "status", value = "主键ID") @PathVariable(name = "status") Boolean status) {
+			@ApiParam(name = "status", value = "主键ID") @PathVariable(name = "status") String status) {
 		Criteria<ServiceProject> param = new Criteria<ServiceProject>();
 		ServiceProject serviceProject = new ServiceProject();
 		serviceProject.setDelStatus(status);
@@ -102,9 +102,8 @@ public class ServiceProjectController {
 	}
 
 	@ApiOperation(value = "详情")
-	@GetMapping("/queryEntityById")
-	public JsonResult<ServiceProject> queryEntityById(
-			@ApiParam(name = "id", value = "主键ID") @RequestParam(required = false) String id) {
+	@GetMapping("/queryEntityById/{id}")
+	public JsonResult<ServiceProject> queryEntityById(@ApiParam(name = "id", value = "主键ID") @PathVariable(name = "id") String id) {
 		return AppResponseCode.success(serviceProjectService.queryEntityById(id));
 	}
 
