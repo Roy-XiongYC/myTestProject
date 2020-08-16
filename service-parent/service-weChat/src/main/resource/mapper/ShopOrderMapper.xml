@@ -29,6 +29,12 @@
 		<if test="params.userName!=null">
 			 and user_name=#{params.userName}
 		</if>
+		<if test="params.like_userName!=null">
+			 and user_name like CONCAT('%',#{params.like_userName},'%')
+		</if>
+		<if test="params.like_goodsInfo!=null">
+			 and goods_info like CONCAT('%',#{params.like_goodsInfo},'%')
+		</if>
 		<if test="params.mobile!=null">
 			 and mobile=#{params.mobile}
 		</if>

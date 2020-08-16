@@ -54,10 +54,22 @@ public class ShopOrderController {
 	public JsonResult<PageInfo<ShopOrder>> queryPage(
 			@ApiParam(name = "pageNum", value = "页码") @RequestParam(name = "pageNum", required = false, defaultValue = "1") Integer pageNum,
 			@ApiParam(name = "pageSize", value = "页面大小") @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize,
-			@ApiParam(name = "id", value = "主键ID") @RequestParam(required = false) String id) {
+			@ApiParam(name = "userName", value = "用户名称") @RequestParam(required = false) String userName,
+			@ApiParam(name = "mobile", value = "联系方式手机号") @RequestParam(required = false) String mobile,
+			@ApiParam(name = "orderId", value = "主键ID") @RequestParam(required = false) String orderId,
+			@ApiParam(name = "goodsInfo", value = "主键ID") @RequestParam(required = false) String goodsInfo) {
 		Criteria<ShopOrder> param = new Criteria<ShopOrder>(pageNum, pageSize);
-		if (!StringUtils.isEmpty(id)) {
-			param.addParam("orderId", id);
+		if (!StringUtils.isEmpty(orderId)) {
+			param.addParam("orderId", orderId);
+		}
+		if (!StringUtils.isEmpty(mobile)) {
+			param.addParam("mobile", mobile);
+		}
+		if (!StringUtils.isEmpty(userName)) {
+			param.addParam("like_userName", userName);
+		}
+		if (!StringUtils.isEmpty(goodsInfo)) {
+			param.addParam("like_goodsInfo", goodsInfo);
 		}
 		param.setOrderBy("order_id desc");
 		return AppResponseCode.success(shopOrderService.queryPage(param));
