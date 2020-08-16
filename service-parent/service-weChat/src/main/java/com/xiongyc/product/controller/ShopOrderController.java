@@ -140,9 +140,9 @@ public class ShopOrderController {
 			
 			
 			//计算金额
-			BigDecimal orderPrice = BigDecimal.ZERO;
-			String num = String.valueOf(jsonObject1.get("dayNum"));
-			if(!StringUtils.isEmpty(num)) {
+			BigDecimal orderPrice = serviceProject.getPrice();
+			if(jsonObject1.get("dayNum") != null) {
+				String num = String.valueOf(jsonObject1.get("dayNum"));
 				orderPrice = serviceProject.getPrice().multiply(new BigDecimal(num));
 			}
 			
@@ -228,4 +228,18 @@ public class ShopOrderController {
 		return shopOrderService.deleteBatchByIds(ids) == null ? AppResponseCode.success() : AppResponseCode.failure();
 	}
 
+	
+	public static void main(String[] args) {
+		String str = "{\"petId\":\"TUP20200816000000024\",\"serviceId\":\"TSP20200816000000003\",\"pickUp\":\"0\",\"vaccines\":true}";
+		JSONObject jsonObject1 = JSONObject.parseObject(str);
+
+		
+		
+		//计算金额
+		BigDecimal orderPrice = BigDecimal.ZERO;
+		if(jsonObject1.get("dayNum") != null) {
+			String num = String.valueOf(jsonObject1.get("dayNum"));
+			orderPrice = orderPrice.multiply(new BigDecimal(num));
+		}
+	}
 }
