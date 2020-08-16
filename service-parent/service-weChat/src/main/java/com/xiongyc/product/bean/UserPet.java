@@ -50,7 +50,7 @@ public class UserPet implements IModel {
 	 * 生日
 	 */
 	@ApiModelProperty(value = "生日")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
 	private Date petBirthday;
 
 	/**
