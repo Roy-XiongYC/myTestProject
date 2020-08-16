@@ -129,6 +129,11 @@ public class ShopOrderController {
 			//查询类型
 			PetsClass petsClass = petsClassService.queryEntityById(pet.getPetTypeId());
 			
+			//查询子类型
+			if(jsonObject1.get("petInfo") != null) {
+				String classId = String.valueOf(jsonObject1.get("petInfo"));
+				jsonObject1.put("petInfo", petsClassService.queryEntityById(classId).getClassName());
+			}
 			
 			//查询品种
 			Varieties varieties = varietiesService.queryEntityById(pet.getVarieties());
