@@ -150,7 +150,8 @@ public class ShopOrderController {
 
 			JSONObject jsonPet = appendJson(jsonObject1, pet);	
 			jsonPet = appendJson(jsonPet, petsClass);	
-			jsonPet = appendJson(jsonPet, varieties);	
+			jsonPet = appendJson(jsonPet, varieties);
+			jsonPet = appendJson(jsonPet, serviceProject);	
 			String json = JSONObject.toJSONString(jsonPet);
 				
 			ShopUser user = shopUserService.queryEntityById(shopOrder.getUserId());
