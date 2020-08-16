@@ -23,6 +23,9 @@
 		<if test="params.projectName!=null">
 			 and project_name=#{params.projectName}
 		</if>
+		<if test="params.like_projectName!=null">
+			 and project_name like CONCAT('%',#{params.like_projectName},'%')
+		</if>
 		<if test="params.price!=null">
 			 and price=#{params.price}
 		</if>

@@ -41,10 +41,10 @@ public class ServiceProjectController {
 	public JsonResult<PageInfo<ServiceProject>> queryPage(
 			@ApiParam(name = "pageNum", value = "页码") @RequestParam(name = "pageNum", required = false, defaultValue = "1") Integer pageNum,
 			@ApiParam(name = "pageSize", value = "页面大小") @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize,
-			@ApiParam(name = "id", value = "主键ID") @RequestParam(required = false) String id) {
+			@ApiParam(name = "projectName", value = "主键ID") @RequestParam(required = false) String projectName) {
 		Criteria<ServiceProject> param = new Criteria<ServiceProject>(pageNum, pageSize);
-		if (!StringUtils.isEmpty(id)) {
-			param.addParam("serviceId", id);
+		if (!StringUtils.isEmpty(projectName)) {
+			param.addParam("like_projectName", projectName);
 		}
 		param.setOrderBy("service_id desc");
 		return AppResponseCode.success(serviceProjectService.queryPage(param));
