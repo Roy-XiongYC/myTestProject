@@ -23,6 +23,9 @@
 		<if test="params.nickName!=null">
 			 and nick_name=#{params.nickName}
 		</if>
+		<if test="params.like_nickName!=null">
+			 and nick_name like CONCAT('%',#{params.like_nickName},'%')
+		</if>
 		<if test="params.unionId!=null">
 			 and union_id=#{params.unionId}
 		</if>

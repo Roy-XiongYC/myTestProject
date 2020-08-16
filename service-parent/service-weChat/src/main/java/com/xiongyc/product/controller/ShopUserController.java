@@ -41,10 +41,10 @@ public class ShopUserController {
 	public JsonResult<PageInfo<ShopUser>> queryPage(
 			@ApiParam(name = "pageNum", value = "页码") @RequestParam(name = "pageNum", required = false, defaultValue = "1") Integer pageNum,
 			@ApiParam(name = "pageSize", value = "页面大小") @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize,
-			@ApiParam(name = "id", value = "主键ID") @RequestParam(required = false) String id) {
+			@ApiParam(name = "nickName", value = "主键ID") @RequestParam(required = false) String nickName) {
 		Criteria<ShopUser> param = new Criteria<ShopUser>(pageNum, pageSize);
-		if (!StringUtils.isEmpty(id)) {
-			param.addParam("userId", id);
+		if (!StringUtils.isEmpty(nickName)) {
+			param.addParam("like_nickName", nickName);
 		}
 		param.setOrderBy("user_id desc");
 		return AppResponseCode.success(shopUserService.queryPage(param));
