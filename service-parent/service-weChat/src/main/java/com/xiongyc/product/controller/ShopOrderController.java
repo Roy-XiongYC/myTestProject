@@ -119,9 +119,8 @@ public class ShopOrderController {
 	}
 
 	@ApiOperation(value = "详情")
-	@GetMapping("/queryEntityById")
-	public JsonResult<ShopOrder> queryEntityById(
-			@ApiParam(name = "id", value = "主键ID") @RequestParam(required = false) String id) {
+	@GetMapping("/queryEntityById/{id}")
+	public JsonResult<ShopOrder> queryEntityById(@ApiParam(name = "id", value = "主键ID") @PathVariable(name = "id") String id) {
 		return AppResponseCode.success(shopOrderService.queryEntityById(id));
 	}
 
