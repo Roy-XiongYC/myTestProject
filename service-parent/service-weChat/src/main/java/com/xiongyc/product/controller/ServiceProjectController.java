@@ -50,6 +50,18 @@ public class ServiceProjectController {
 		return AppResponseCode.success(serviceProjectService.queryPage(param));
 	}
 
+	@ApiOperation(value = "翻页查询列表")
+	@GetMapping("/queryList")
+	public JsonResult<List<ServiceProject>> queryList(
+			@ApiParam(name = "type", value = "服务类型 10 美容洗澡 20 寄养") @RequestParam(required = false) String type) {
+		Criteria<ServiceProject> param = new Criteria<ServiceProject>();
+		if (!StringUtils.isEmpty(type)) {
+			param.addParam("type", type);
+		}
+		param.setOrderBy("service_id desc");
+		return AppResponseCode.success(serviceProjectService.queryList(param));
+	}
+
 	@ApiOperation(value = "保存数据")
 	@PostMapping("/addOrUpdate")
 	public JsonResult<Object> addOrUpdate(@RequestBody ServiceProject serviceProject) {
@@ -75,7 +87,8 @@ public class ServiceProjectController {
 		serviceProject.setDelStatus(status);
 		param.addParam("serviceId", id);
 		param.setRecord(serviceProject);
-		return serviceProjectService.updateByCriteria(param) == null ? AppResponseCode.success(): AppResponseCode.failure();
+		return serviceProjectService.updateByCriteria(param) == null ? AppResponseCode.success()
+				: AppResponseCode.failure();
 	}
 
 	@ApiOperation(value = "批量新增数据")
@@ -103,7 +116,8 @@ public class ServiceProjectController {
 
 	@ApiOperation(value = "详情")
 	@GetMapping("/queryEntityById/{id}")
-	public JsonResult<ServiceProject> queryEntityById(@ApiParam(name = "id", value = "主键ID") @PathVariable(name = "id") String id) {
+	public JsonResult<ServiceProject> queryEntityById(
+			@ApiParam(name = "id", value = "主键ID") @PathVariable(name = "id") String id) {
 		return AppResponseCode.success(serviceProjectService.queryEntityById(id));
 	}
 
