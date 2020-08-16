@@ -58,6 +58,7 @@ public class ServiceProjectController {
 		if (!StringUtils.isEmpty(type)) {
 			param.addParam("type", type);
 		}
+		param.addParam("delStatus", "0");
 		param.setOrderBy("service_id desc");
 		return AppResponseCode.success(serviceProjectService.queryList(param));
 	}

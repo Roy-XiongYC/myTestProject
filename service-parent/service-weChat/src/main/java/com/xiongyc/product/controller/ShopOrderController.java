@@ -1,5 +1,6 @@
 package com.xiongyc.product.controller;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
@@ -17,12 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.xiongyc.product.bean.PetsClass;
+import com.xiongyc.product.bean.ServiceProject;
 import com.xiongyc.product.bean.ShopOrder;
 import com.xiongyc.product.bean.ShopUser;
 import com.xiongyc.product.bean.UserPet;
+import com.xiongyc.product.bean.Varieties;
+import com.xiongyc.product.service.IPetsClassService;
+import com.xiongyc.product.service.IServiceProjectService;
 import com.xiongyc.product.service.IShopOrderService;
 import com.xiongyc.product.service.IShopUserService;
 import com.xiongyc.product.service.IUserPetService;
+import com.xiongyc.product.service.IVarietiesService;
 import com.xiongyc.sequence.service.SequenceService;
 import com.xiongyc.utils.code.AppResponseCode;
 import com.xiongyc.utils.mybatis.Criteria;
@@ -31,7 +38,9 @@ import com.xiongyc.utils.result.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @Api(description = "商城订单表")
 @RequestMapping(value = "/shopOrder")
@@ -46,6 +55,15 @@ public class ShopOrderController {
 	@Autowired
 	private IUserPetService userPetService;
 
+	@Autowired
+	private IServiceProjectService serviceProjectService;
+	
+	@Autowired
+	private IVarietiesService varietiesService;
+	
+	@Autowired
+	private IPetsClassService petsClassService;
+	
 	@Autowired
 	private SequenceService sequenceService;
 
@@ -75,9 +93,25 @@ public class ShopOrderController {
 		return AppResponseCode.success(shopOrderService.queryPage(param));
 	}
 
+	
+	@ApiOperation(value = "更新状态")
+	@GetMapping("/updateStatus/{id}/{status}")
+	public JsonResult<Object> updateStatus(@ApiParam(name = "id", value = "主键ID") @PathVariable(name = "id") String id,
+			@ApiParam(name = "status", value = "主键ID") @PathVariable(name = "status") String status) {
+		Criteria<ShopOrder> param = new Criteria<ShopOrder>();
+		ShopOrder shopOrder = new ShopOrder();
+		shopOrder.setOrderStatus(status);
+		param.addParam("orderId", id);
+		param.setRecord(shopOrder);
+		return shopOrderService.updateByCriteria(param) == null ? AppResponseCode.success(): AppResponseCode.failure();
+	}
+	
 	@ApiOperation(value = "保存数据")
 	@PostMapping("/addOrUpdate")
 	public JsonResult<Object> addOrUpdate(@RequestBody ShopOrder shopOrder) {
+		
+		log.info("=======>" + shopOrder.toString());
+		
 		String ret = null;
 		if (!StringUtils.isEmpty(shopOrder.getOrderId())) {
 			Criteria<ShopOrder> param = new Criteria<ShopOrder>();
@@ -87,16 +121,40 @@ public class ShopOrderController {
 		} else {
 			//解析商品
 			JSONObject jsonObject1 = JSONObject.parseObject(shopOrder.getGoodsInfo());
+			
+			//查询宠物信息
 			String petId = jsonObject1.get("petId").toString();
 			UserPet pet = userPetService.queryEntityById(petId);
-			JSONObject parseObject = JSONObject.parseObject(JSONObject.toJSONString(pet));
-			for (Entry<String, Object> map : jsonObject1.entrySet()) {
-				parseObject.put(map.getKey(),map.getValue()); 
-			};
-			String jsonPet = JSONObject.toJSONString(pet);			
 			
+			//查询类型
+			PetsClass petsClass = petsClassService.queryEntityById(pet.getPetTypeId());
+			
+			
+			//查询品种
+			Varieties varieties = varietiesService.queryEntityById(pet.getVarieties());
+			
+			
+			//查询服务项目信息	
+			String serviceId = jsonObject1.get("serviceId").toString();
+			ServiceProject serviceProject = serviceProjectService.queryEntityById(serviceId);
+			
+			
+			//计算金额
+			BigDecimal orderPrice = BigDecimal.ZERO;
+			String num = String.valueOf(jsonObject1.get("dayNum"));
+			if(!StringUtils.isEmpty(num)) {
+				orderPrice = serviceProject.getPrice().multiply(new BigDecimal(num));
+			}
+			
+			shopOrder.setOrderPrice(orderPrice);
+
+			JSONObject jsonPet = appendJson(jsonObject1, pet);	
+			jsonPet = appendJson(jsonPet, petsClass);	
+			jsonPet = appendJson(jsonPet, varieties);	
+			String json = JSONObject.toJSONString(jsonPet);
+				
 			ShopUser user = shopUserService.queryEntityById(shopOrder.getUserId());
-			shopOrder.setGoodsInfo(jsonPet);
+			shopOrder.setGoodsInfo(json);
 			shopOrder.setUserName(user.getNickName());
 			shopOrder.setMobile(pet.getMobile());
 			shopOrder.setOrderId(sequenceService.getUpdateQuerySeq("TSO", "t_shop_order"));
@@ -105,6 +163,16 @@ public class ShopOrderController {
 			ret = shopOrderService.insert(shopOrder);
 		}
 		return ret == null ? AppResponseCode.success() : AppResponseCode.failure();
+	}
+
+
+	private JSONObject appendJson(JSONObject jsonObject1, Object pet) {
+		JSONObject parseObject = JSONObject.parseObject(JSONObject.toJSONString(pet));
+		for (Entry<String, Object> map : jsonObject1.entrySet()) {
+			parseObject.put(map.getKey(),map.getValue()); 
+		};
+		//String jsonPet = JSONObject.toJSONString(pet);
+		return parseObject;
 	}
 
 	@ApiOperation(value = "批量新增数据")
