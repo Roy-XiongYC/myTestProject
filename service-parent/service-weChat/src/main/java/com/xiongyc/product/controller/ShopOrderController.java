@@ -73,10 +73,14 @@ public class ShopOrderController {
 			@ApiParam(name = "pageNum", value = "页码") @RequestParam(name = "pageNum", required = false, defaultValue = "1") Integer pageNum,
 			@ApiParam(name = "pageSize", value = "页面大小") @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize,
 			@ApiParam(name = "userName", value = "用户名称") @RequestParam(required = false) String userName,
+			@ApiParam(name = "userId", value = "用户Id") @RequestParam(required = false) String userId,
 			@ApiParam(name = "mobile", value = "联系方式手机号") @RequestParam(required = false) String mobile,
 			@ApiParam(name = "orderId", value = "主键ID") @RequestParam(required = false) String orderId,
 			@ApiParam(name = "goodsInfo", value = "主键ID") @RequestParam(required = false) String goodsInfo) {
 		Criteria<ShopOrder> param = new Criteria<ShopOrder>(pageNum, pageSize);
+		if (!StringUtils.isEmpty(userId)) {
+			param.addParam("userId", userId);
+		}
 		if (!StringUtils.isEmpty(orderId)) {
 			param.addParam("orderId", orderId);
 		}
