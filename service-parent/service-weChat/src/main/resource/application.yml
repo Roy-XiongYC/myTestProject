@@ -62,7 +62,14 @@ wx:
   appId: wxbbf02c89c3eadd61
   appSecret: e5446349d5e000df0a8d9bbcc96978d5
   grantType: client_credential
-  
+
+sms: 
+  regionId: cn-hangzhou
+  accessKeyId: LTAI4G9WTFC3xKc5b7YnvHc6
+  secret: YEjtBzZAyWaHK6bS24h1aJluQ3jnpp
+  domain: dysmsapi.aliyuncs.com
+  version: 2017-05-25
+  action: SendSms
 # 是否启用 Dataway 功能（必选：默认false）
 HASOR_DATAQL_DATAWAY: true
 
