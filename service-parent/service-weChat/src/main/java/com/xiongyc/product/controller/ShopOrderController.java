@@ -176,14 +176,15 @@ public class ShopOrderController {
 			shopOrder.setOrderPrice(orderPrice);
 
 			JSONObject jsonPet = appendJson(jsonObject1, pet);
-			// 查询子类型
-			if (jsonObject1.get("petInfo") != null) {
-				String classId = String.valueOf(jsonObject1.get("petInfo"));
-				jsonObject1.put("petInfo", petsClassService.queryEntityById(classId).getClassName());
-			}
 			jsonPet = appendJson(jsonPet, petsClass);
 			jsonPet = appendJson(jsonPet, varieties);
 			jsonPet = appendJson(jsonPet, serviceProject);
+			
+			// 查询子类型
+			if (pet.getPetInfo() != "0") {
+				jsonPet.put("petInfo", petsClassService.queryEntityById(pet.getPetInfo()).getClassName());
+			}
+			
 			String json = JSONObject.toJSONString(jsonPet);
 
 			ShopUser user = shopUserService.queryEntityById(shopOrder.getUserId());
@@ -195,8 +196,7 @@ public class ShopOrderController {
 			shopOrder.setOrderStatus("60");
 			ret = shopOrderService.insert(shopOrder);
 			// 发生预约短信
-			SmsUtil.send(regionId, accessKeyId, secret, domain, version, action, pet.getMobile(), "迪卡宠物生活馆01",
-					"SMS_199797345", "{\"code\":\"" + shopOrder.getOrderId() + "\"}", shopOrder.getOrderId());
+			SmsUtil.send(regionId, accessKeyId, secret, domain, version, action, pet.getMobile(), "迪卡宠物生活馆01","SMS_199797345", "{\"code\":\"" + shopOrder.getOrderId() + "\"}", shopOrder.getOrderId());
 		}
 		return ret == null ? AppResponseCode.success() : AppResponseCode.failure();
 	}
