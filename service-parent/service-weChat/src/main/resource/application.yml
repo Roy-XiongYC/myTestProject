@@ -1,86 +1,58 @@
 server:
-  port: 8080 
+  port: 8080
   servlet:
     context-path: /weChat
-
 eureka:
   client:
-#    service-url:
-#       defaultZone: http://admin:123456@120.24.75.28:9003/eureka/eureka
-#       defaultZone: http://admin:123456@59.110.216.184:9001/eureka,http://admin:123456@47.107.181.95:9002/eureka,http://admin:123456@120.24.75.28:9003/eureka
     fetch-registry: false
     register-with-eureka: false
-#  instance:
-#    instance-id: product-service 
-#    prefer-ip-address: true
-
 mybatis:
   type-aliases-package: com.xiongyc.product.bean
-  mapper-locations: # 所有的mapper映射文件
-  - classpath:mapper/*.xml 
-
-api: 
-  swagger: 
+  mapper-locations:
+  - classpath:mapper/*.xml
+api:
+  swagger:
     basePackage: com.xiongyc.product
     title: 产品服务
     description: 这是一个声明
     contact: YouCai.Xiong,www.baidu.com,764340703@qq.com
     version: 1.0
-
-spring: 
+spring:
   thymeleaf:
     prefix: classpath:/templates/
-    cache: false #关闭页面缓存
-#  mvc:
-#    static-path-pattern: /**
+    cache: false
   resources:
     static-locations:
-    - classpath:static/   
-    
-  application: 
+    - classpath:static/
+  application:
     name: product-service
-  datasource: 
-    type: com.alibaba.druid.pool.DruidDataSource # 配置当前要使用的数据源的操作类型
-    driver-class-name: com.mysql.cj.jdbc.Driver # 配置MySQL的驱动程序类
-    url: jdbc:mysql://47.107.87.255:3306/dika?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=GMT%2B8 # 数据库连接地址
-    username: root # 数据库用户名
-    password: root # 数据库连接密码   \
-#    url: jdbc:mysql://172.1.10.24:3306/afterSale?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
-#    username: root # 数据库用户名
-#    password: 123456 # 数据库连接密码    
-  redis: 
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.107.87.255:3306/dika?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: root
+    password: root
+  redis:
     port: 6379
     host: 47.107.87.255
     password: xiong5710565
-  
 logging:
   level:
-    com.xiongyc.product: DEBUG #INFO
-    
-wx: 
-  token: token    
+    com.xiongyc.product: DEBUG
+wx:
+  token: token
   appId: wxbbf02c89c3eadd61
   appSecret: e5446349d5e000df0a8d9bbcc96978d5
   grantType: client_credential
-
-sms: 
+sms:
   regionId: cn-hangzhou
   accessKeyId: LTAI4G9WTFC3xKc5b7YnvHc6
   secret: YEjtBzZAyWaHK6bS24h1aJluQ3jnpp
   domain: dysmsapi.aliyuncs.com
-  version: 2017-05-25
+  version: 2017-05-25T00:00:00Z
   action: SendSms
-# 是否启用 Dataway 功能（必选：默认false）
 HASOR_DATAQL_DATAWAY: true
-
-# 是否开启 Dataway 后台管理界面（必选：默认false）
 HASOR_DATAQL_DATAWAY_ADMIN: true
-
-# dataway  API工作路径（可选，默认：/api/）
 HASOR_DATAQL_DATAWAY_API_URL: /api/
-
-# dataway-ui 的工作路径（可选，默认：/interface-ui/）
 HASOR_DATAQL_DATAWAY_UI_URL: /interface-ui/
-
-# SQL执行器方言设置（可选，建议设置）
-HASOR_DATAQL_FX_PAGE_DIALECT: mysql  
+HASOR_DATAQL_FX_PAGE_DIALECT: mysql
