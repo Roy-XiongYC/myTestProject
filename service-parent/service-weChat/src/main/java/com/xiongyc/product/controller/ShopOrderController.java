@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ import com.xiongyc.product.service.IShopOrderService;
 import com.xiongyc.product.service.IShopUserService;
 import com.xiongyc.product.service.IUserPetService;
 import com.xiongyc.product.service.IVarietiesService;
+import com.xiongyc.product.utils.SmsUtil;
 import com.xiongyc.sequence.service.SequenceService;
 import com.xiongyc.utils.code.AppResponseCode;
 import com.xiongyc.utils.mybatis.Criteria;
@@ -51,21 +53,39 @@ public class ShopOrderController {
 
 	@Autowired
 	private IShopUserService shopUserService;
-	
+
 	@Autowired
 	private IUserPetService userPetService;
 
 	@Autowired
 	private IServiceProjectService serviceProjectService;
-	
+
 	@Autowired
 	private IVarietiesService varietiesService;
-	
+
 	@Autowired
 	private IPetsClassService petsClassService;
-	
+
 	@Autowired
 	private SequenceService sequenceService;
+
+	@Value("${sms.regionId}")
+	private String regionId;
+
+	@Value("${sms.accessKeyId}")
+	private String accessKeyId;
+
+	@Value("${sms.secret}")
+	private String secret;
+
+	@Value("${sms.domain}")
+	private String domain;
+
+	@Value("${sms.version}")
+	private String version;
+
+	@Value("${sms.action}")
+	private String action;
 
 	@ApiOperation(value = "翻页查询列表")
 	@GetMapping("/queryPage")
@@ -97,25 +117,35 @@ public class ShopOrderController {
 		return AppResponseCode.success(shopOrderService.queryPage(param));
 	}
 
-	
 	@ApiOperation(value = "更新状态")
 	@GetMapping("/updateStatus/{id}/{status}")
 	public JsonResult<Object> updateStatus(@ApiParam(name = "id", value = "主键ID") @PathVariable(name = "id") String id,
 			@ApiParam(name = "status", value = "主键ID") @PathVariable(name = "status") String status) {
+		
+		ShopOrder shopOrder = shopOrderService.queryEntityById(id);
+		
 		Criteria<ShopOrder> param = new Criteria<ShopOrder>();
-		ShopOrder shopOrder = new ShopOrder();
 		shopOrder.setOrderStatus(status);
 		param.addParam("orderId", id);
 		param.setRecord(shopOrder);
+		
+		// * 设置 10 待付款 20 待收货 30 已完成 40 已取消 50已支付 60s申请预约 70 预约成功
+		if ("70".equals(status)) {
+			JSONObject jsonObject1 = JSONObject.parseObject(shopOrder.getGoodsInfo());
+			String date =  jsonObject1.get("appointedTime")!= null?jsonObject1.get("appointedTime").toString():jsonObject1.get("startFosterTime").toString();
+			SmsUtil.send(regionId, accessKeyId, secret, domain, version, action, shopOrder.getMobile(), "迪卡宠物", "SMS_199772563", "{\"date\":\""+date+"\"}", shopOrder.getOrderId());
+		} else {
+			SmsUtil.send(regionId, accessKeyId, secret, domain, version, action, shopOrder.getMobile(), "迪卡宠物", "SMS_199807819", null, shopOrder.getOrderId());
+		}
 		return shopOrderService.updateByCriteria(param) == null ? AppResponseCode.success(): AppResponseCode.failure();
 	}
-	
+
 	@ApiOperation(value = "保存数据")
 	@PostMapping("/addOrUpdate")
 	public JsonResult<Object> addOrUpdate(@RequestBody ShopOrder shopOrder) {
-		
+
 		log.info("=======>" + shopOrder.toString());
-		
+
 		String ret = null;
 		if (!StringUtils.isEmpty(shopOrder.getOrderId())) {
 			Criteria<ShopOrder> param = new Criteria<ShopOrder>();
@@ -123,45 +153,44 @@ public class ShopOrderController {
 			param.setRecord(shopOrder);
 			ret = shopOrderService.updateByCriteria(param);
 		} else {
-			//解析商品
+			// 解析商品
 			JSONObject jsonObject1 = JSONObject.parseObject(shopOrder.getGoodsInfo());
-			
-			//查询宠物信息
+
+			// 查询宠物信息
 			String petId = jsonObject1.get("petId").toString();
 			UserPet pet = userPetService.queryEntityById(petId);
-			
-			//查询类型
+
+			// 查询类型
 			PetsClass petsClass = petsClassService.queryEntityById(pet.getPetTypeId());
-			
-			//查询品种
+
+			// 查询品种
 			Varieties varieties = varietiesService.queryEntityById(pet.getVarieties());
-			
-			
-			//查询服务项目信息	
+
+			// 查询服务项目信息
 			String serviceId = jsonObject1.get("serviceId").toString();
 			ServiceProject serviceProject = serviceProjectService.queryEntityById(serviceId);
-			
-			
-			//计算金额
+
+			// 计算金额
 			BigDecimal orderPrice = serviceProject.getPrice();
-			if(jsonObject1.get("dayNum") != null) {
+			if (jsonObject1.get("dayNum") != null) {
 				String num = String.valueOf(jsonObject1.get("dayNum"));
 				orderPrice = serviceProject.getPrice().multiply(new BigDecimal(num));
 			}
-			
+
 			shopOrder.setOrderPrice(orderPrice);
 
-			JSONObject jsonPet = appendJson(jsonObject1, pet);	
-			//查询子类型
-			if(jsonObject1.get("petInfo") != null) {
-				String classId = String.valueOf(jsonObject1.get("petInfo"));
-				jsonObject1.put("petInfo", petsClassService.queryEntityById(classId).getClassName());
-			}
-			jsonPet = appendJson(jsonPet, petsClass);	
+			JSONObject jsonPet = appendJson(jsonObject1, pet);
+			jsonPet = appendJson(jsonPet, petsClass);
 			jsonPet = appendJson(jsonPet, varieties);
-			jsonPet = appendJson(jsonPet, serviceProject);	
+			jsonPet = appendJson(jsonPet, serviceProject);
+			
+			// 查询子类型
+			if (pet.getPetInfo() != "0") {
+				jsonPet.put("petInfo", petsClassService.queryEntityById(pet.getPetInfo()).getClassName());
+			}
+			
 			String json = JSONObject.toJSONString(jsonPet);
-				
+
 			ShopUser user = shopUserService.queryEntityById(shopOrder.getUserId());
 			shopOrder.setGoodsInfo(json);
 			shopOrder.setUserName(user.getNickName());
@@ -170,17 +199,19 @@ public class ShopOrderController {
 			shopOrder.setCreateTime(new Date());
 			shopOrder.setOrderStatus("60");
 			ret = shopOrderService.insert(shopOrder);
+			// 发生预约短信
+			SmsUtil.send(regionId, accessKeyId, secret, domain, version, action, pet.getMobile(), "迪卡宠物","SMS_199793626", "{\"code\":\"" + shopOrder.getOrderId() + "\"}", shopOrder.getOrderId());
 		}
 		return ret == null ? AppResponseCode.success() : AppResponseCode.failure();
 	}
 
-
 	private JSONObject appendJson(JSONObject jsonObject1, Object pet) {
 		JSONObject parseObject = JSONObject.parseObject(JSONObject.toJSONString(pet));
 		for (Entry<String, Object> map : jsonObject1.entrySet()) {
-			parseObject.put(map.getKey(),map.getValue()); 
-		};
-		//String jsonPet = JSONObject.toJSONString(pet);
+			parseObject.put(map.getKey(), map.getValue());
+		}
+		;
+		// String jsonPet = JSONObject.toJSONString(pet);
 		return parseObject;
 	}
 
@@ -209,7 +240,8 @@ public class ShopOrderController {
 
 	@ApiOperation(value = "详情")
 	@GetMapping("/queryEntityById/{id}")
-	public JsonResult<ShopOrder> queryEntityById(@ApiParam(name = "id", value = "主键ID") @PathVariable(name = "id") String id) {
+	public JsonResult<ShopOrder> queryEntityById(
+			@ApiParam(name = "id", value = "主键ID") @PathVariable(name = "id") String id) {
 		return AppResponseCode.success(shopOrderService.queryEntityById(id));
 	}
 
@@ -236,16 +268,13 @@ public class ShopOrderController {
 		return shopOrderService.deleteBatchByIds(ids) == null ? AppResponseCode.success() : AppResponseCode.failure();
 	}
 
-	
 	public static void main(String[] args) {
 		String str = "{\"petId\":\"TUP20200816000000024\",\"serviceId\":\"TSP20200816000000003\",\"pickUp\":\"0\",\"vaccines\":true}";
 		JSONObject jsonObject1 = JSONObject.parseObject(str);
 
-		
-		
-		//计算金额
+		// 计算金额
 		BigDecimal orderPrice = BigDecimal.ZERO;
-		if(jsonObject1.get("dayNum") != null) {
+		if (jsonObject1.get("dayNum") != null) {
 			String num = String.valueOf(jsonObject1.get("dayNum"));
 			orderPrice = orderPrice.multiply(new BigDecimal(num));
 		}
