@@ -129,9 +129,9 @@ public class ShopOrderController {
 		if ("70".equals(status)) {
 			JSONObject jsonObject1 = JSONObject.parseObject(shopOrder.getGoodsInfo());
 			String date =  jsonObject1.get("appointedTime")!= null?jsonObject1.get("appointedTime").toString():jsonObject1.get("startFosterTime").toString();
-			SmsUtil.send(regionId, accessKeyId, secret, domain, version, action, shopOrder.getMobile(), "迪卡宠物生活馆01", "SMS_199772563", "{\"date\":\""+date+"\"}", shopOrder.getOrderId());
+			SmsUtil.send(regionId, accessKeyId, secret, domain, version, action, shopOrder.getMobile(), "迪卡宠物生活馆", "SMS_199772563", "{\"date\":\""+date+"\"}", shopOrder.getOrderId());
 		} else {
-			SmsUtil.send(regionId, accessKeyId, secret, domain, version, action, shopOrder.getMobile(), "迪卡宠物生活馆01", "SMS_199807819", null, shopOrder.getOrderId());
+			SmsUtil.send(regionId, accessKeyId, secret, domain, version, action, shopOrder.getMobile(), "迪卡宠物生活馆", "SMS_199807819", null, shopOrder.getOrderId());
 		}
 		return shopOrderService.updateByCriteria(param) == null ? AppResponseCode.success(): AppResponseCode.failure();
 	}
@@ -196,7 +196,7 @@ public class ShopOrderController {
 			shopOrder.setOrderStatus("60");
 			ret = shopOrderService.insert(shopOrder);
 			// 发生预约短信
-			SmsUtil.send(regionId, accessKeyId, secret, domain, version, action, pet.getMobile(), "迪卡宠物生活馆01","SMS_199797345", "{\"code\":\"" + shopOrder.getOrderId() + "\"}", shopOrder.getOrderId());
+			SmsUtil.send(regionId, accessKeyId, secret, domain, version, action, pet.getMobile(), "迪卡宠物生活馆","SMS_199793626", "{\"code\":\"" + shopOrder.getOrderId() + "\"}", shopOrder.getOrderId());
 		}
 		return ret == null ? AppResponseCode.success() : AppResponseCode.failure();
 	}
